@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true">
+
+    <data>
+
+        <variable
+            name="itemClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="fragment"
+            type="com.example.moviedb.catalog.ui.fragment.MovieItemDialogFragment" />
+
+        <variable
+            name="movieItem"
+            type="com.example.moviedb.catalog.presentation.model.UiMovieItem" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlueLight"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_rent_update_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorBlueLight"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="">
+
+                <TextView
+                    android:id="@+id/dialog_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{fragment.toolbarTitle}"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/colorWhite"
+            card_view:cardCornerRadius="@dimen/radius_2dp"
+            card_view:cardElevation="@dimen/radius_2dp"
+            card_view:cardUseCompatPadding="true">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_12dp">
+
+                    <ImageView
+                        android:id="@+id/preview_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_500dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/negative_dimen_14dp"
+                        android:contentDescription="@string/image_icon_descr"
+                        android:padding="@dimen/padding_2dp"
+                        android:src="@mipmap/ic_launcher">
+
+                    </ImageView>
+
+                    <RelativeLayout
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/preview_img"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/title_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/title"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/title_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/title_descr"
+                            android:singleLine="false"
+                            android:text="@{movieItem.title}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/popularity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/popularity_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/popularity"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/popularity_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/popularity_descr"
+                            android:singleLine="true"
+                            android:text="@{movieItem.popularity}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/vote_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/popularity"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/vote_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/vote_count"
+                            android:visibility="visible">
+
+                        </TextView>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/vote_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/vote_descr"
+                            android:singleLine="true"
+                            android:text="@{movieItem.vote_count}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/vote_average"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/vote_count"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/vote_average_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/vote_average"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/vote_average_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/vote_average_descr"
+                            android:singleLine="true"
+                            android:text="@{movieItem.vote_average}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/adult"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/vote_average"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/adult_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/adult"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/adult_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/adult_descr"
+                            android:singleLine="true"
+                            android:text="@{movieItem.adult}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/original_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/adult"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/original_language_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/original_language"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/original_language_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/original_language_descr"
+                            android:singleLine="true"
+                            android:text="@{movieItem.original_language}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/original_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/original_language"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/original_title_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/original_title"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/original_title_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/original_title_descr"
+                            android:singleLine="true"
+                            android:text="@{movieItem.original_title}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/overview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/original_title"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/overview_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/overview"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/overview_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/overview_descr"
+                            android:singleLine="false"
+                            android:text="@{movieItem.overview}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/release_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/overview"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/release_date_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/release_date"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/release_date_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/release_date_descr"
+                            android:singleLine="false"
+                            android:text="@{movieItem.release_date}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/budget"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/release_date"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/budget_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/budget"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/budget_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/budget_descr"
+                            android:singleLine="false"
+                            android:text="@{movieItem.budget}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/imdb_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/budget"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/imdb_id_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/imdb_id"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/imdb_id_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/imdb_id_descr"
+                            android:singleLine="false"
+                            android:text="@{movieItem.imdb_id}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/revenue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imdb_id"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/revenue_descr"
+                            android:layout_width="@dimen/width_130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_5dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:singleLine="true"
+                            android:text="@string/revenue"
+                            android:visibility="visible" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/revenue_descr"
+                            android:layout_marginStart="@dimen/dimen_5dp"
+                            android:layout_marginEnd="@dimen/dimen_18dp"
+                            android:layout_marginBottom="@dimen/dimen_5dp"
+                            android:layout_toEndOf="@+id/revenue_descr"
+                            android:singleLine="false"
+                            android:text="@{movieItem.revenue}"
+                            android:visibility="visible"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/revenue"
+                        android:layout_marginStart="@dimen/dimen_10dp"
+                        android:layout_marginEnd="@dimen/dimen_10dp"
+                        android:layout_marginBottom="@dimen/dimen_10dp"
+                        android:background="@color/colorBlueLight"
+                        android:onClick="@{itemClickListener}"
+                        android:text="@string/btn_back"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold">
+
+                    </Button>
+
+
+                </RelativeLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</layout>
+
+
+
+
+

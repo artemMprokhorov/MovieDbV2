@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MovieDb</string>
+    <string name="image_icon_descr">ImageIcon</string>
+    <string name="title">Title : </string>
+    <string name="popularity">Popularity : </string>
+    <string name="vote_count">Vote Count : </string>
+    <string name="vote_average">Vote Average : </string>
+    <string name="adult">Adult : </string>
+    <string name="original_language">Original Language : </string>
+    <string name="original_title">Original Title : </string>
+    <string name="overview">Overview : </string>
+    <string name="release_date">Release Date : </string>
+    <string name="budget">Budget : </string>
+    <string name="imdb_id">IMDB ID : </string>
+    <string name="revenue">REVENUE : </string>
+    <string name="btn_back">BACK TO LIST</string>
+    <string name="error_text">Content not available now. Please, try it later.</string>
+</resources>
