@@ -6,8 +6,7 @@ import io.reactivex.Single
 
 interface MovieDataSource {
 
-    fun getPopular(pageNum: String?, apiKey: String?): Single<RemotePopular>
+    fun getPopular(pageNum: String, apiKey: String): Single<RemotePopular>
 
-    fun getMovieItem(movieId: String?, apiKey: String?): Single<RemoteMovieItem>
-
+    fun getMovieItem(movieId: String, apiKey: String): Single<RemoteMovieItem>
 }

@@ -17,5 +17,4 @@ sealed class MovieResult {
         data class Success(val domainMovieItem: DomainMovieItem) : GetMovieLoadingResult()
         data class Error(val error: Throwable) : GetMovieLoadingResult()
     }
-
 }

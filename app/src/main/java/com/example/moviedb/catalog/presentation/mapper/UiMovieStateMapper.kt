@@ -6,15 +6,14 @@ import javax.inject.Inject
 
 class UiMovieStateMapper @Inject constructor() {
 
-    fun DomainPopular.fromDomainToUi(uiStateItemMapper: UiStateItemMapper) = UiPopular(
+    fun DomainPopular.toUi(uiStateItemMapper: UiStateItemMapper) = UiPopular(
         page = page,
-        total_results = total_results,
-        total_pages = total_pages,
-        results = results?.map {
+        totalResults = totalResults,
+        totalPages = totalPages,
+        results = results.map {
             with(uiStateItemMapper) {
-                it.fromDomainToUi()
+                it.toUi()
             }
         }
     )
-
 }

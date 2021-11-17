@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class UiMovieItemGenresMapper @Inject constructor() {
 
-    fun DomainMovieItemGenre.fromDomainToUi(): UiMovieItemGenre = UiMovieItemGenre(
+    fun DomainMovieItemGenre.toUi() = UiMovieItemGenre(
         id = id,
         name = name
     )

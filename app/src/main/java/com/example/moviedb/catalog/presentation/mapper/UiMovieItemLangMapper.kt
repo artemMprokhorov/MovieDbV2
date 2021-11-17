@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class UiMovieItemLangMapper @Inject constructor() {
 
-    fun DomainMovieItemLang.fromDomainToUi(): UiMovieItemLang = UiMovieItemLang(
+    fun DomainMovieItemLang.toUi() = UiMovieItemLang(
         iso = iso,
         name = name
     )

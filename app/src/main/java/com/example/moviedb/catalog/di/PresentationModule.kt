@@ -1,14 +1,12 @@
 package com.example.moviedb.catalog.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.moviedb.MovieDbApp
 import com.example.moviedb.catalog.presentation.viewmodel.MovieViewModel
 import com.example.moviedb.catalog.ui.fragment.MovieItemDialogFragment
 import com.example.moviedb.catalog.ui.util.ImageLoader
-import com.example.moviedb.common.di.ViewModelFactory
-import com.example.moviedb.common.di.ViewModelKey
+import com.example.moviedb.common.factory.ViewModelFactory
+import com.example.moviedb.common.factory.ViewModelKey
 import com.example.moviedb.common.presentation.execution.AppExecutionThread
 import com.example.moviedb.common.presentation.execution.ExecutionThread
 import dagger.Binds
@@ -30,16 +28,8 @@ abstract class PresentationModule {
     @Binds
     abstract fun bindExecutionThread(executionThread: AppExecutionThread): ExecutionThread
 
-
     @Module
     companion object {
-
-        @Provides
-        @JvmStatic
-        internal fun providesContext(): Context {
-            return MovieDbApp.context
-        }
-
 
         @Provides
         @JvmStatic
@@ -52,7 +42,5 @@ abstract class PresentationModule {
         internal fun providesImageLoader(): ImageLoader {
             return ImageLoader()
         }
-
     }
-
 }

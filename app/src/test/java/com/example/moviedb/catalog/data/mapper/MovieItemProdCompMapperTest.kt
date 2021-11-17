@@ -10,7 +10,7 @@ class MovieItemProdCompMapperTest {
     fun fromRemoteToDomain() {
         val movieItemProdCompMapper = MovieItemProdCompMapper()
         assertNotNull(with(movieItemProdCompMapper) {
-            remoteMovieItemProdComp.fromRemoteToDomain()
+            remoteMovieItemProdComp.toDomain()
         })
     }
 

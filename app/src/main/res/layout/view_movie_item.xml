@@ -137,7 +137,7 @@
                 android:layout_marginBottom="@dimen/dimen_5dp"
                 android:layout_toEndOf="@+id/vote_descr"
                 android:singleLine="true"
-                android:text="@{movieItem.voteCount.toString()}"
+                android:text="@{movieItem.voteCount}"
                 android:visibility="visible"
                 tools:text="@tools:sample/lorem/random" />
 

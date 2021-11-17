@@ -10,7 +10,7 @@ class UiMovieItemProdCompMapperTest {
     fun fromDomainToUi() {
         val uiMovieItemProdCompMapper = UiMovieItemProdCompMapper()
         assertNotNull(with(uiMovieItemProdCompMapper) {
-            domainMovieItemProdComp.fromDomainToUi()
+            domainMovieItemProdComp.toUi()
         })
     }
 

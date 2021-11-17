@@ -76,15 +76,13 @@ class MovieAdapter @Inject constructor(private val imageLoader: ImageLoader) :
             previewImg: ImageView,
             item: UiPopularItem
         ) {
-            item.backdropPath?.let {
+            item.backdropPath.let {
                 imageLoader.setImage(
                     previewImg, BuildConfig.API_IMG, it,
                     PRIMARY_OVERRIDED_WIDTH, PRIMARY_OVERRIDED_HEIGHT
                 )
             }
         }
-
     }
-
 }
 

@@ -13,9 +13,9 @@ class UiMovieItemProdCompTest {
 
         uiMovieItemProdComp = makeUiMovieItemProdComp()
         uiMovieItemProdComp.id?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemProdComp.logo_path?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
+        uiMovieItemProdComp.logoPath?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
         uiMovieItemProdComp.name?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemProdComp.origin_country?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
+        uiMovieItemProdComp.originCountry?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
 
     }
 }

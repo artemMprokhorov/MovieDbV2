@@ -38,7 +38,7 @@ class MovieProcessor @Inject constructor(
         ObservableTransformer<Movie, GetMovieResult> { actions ->
             actions.switchMap { it ->
                 popularUseCase
-                    .buildUseCaseObservable(it.pageNum)
+                    .execute(it.pageNum)
                     .toObservable()
                     .map { GetMovieResult.Success(it) }
                     .cast(GetMovieResult::class.java)
@@ -53,7 +53,7 @@ class MovieProcessor @Inject constructor(
         ObservableTransformer<MovieLoading, GetMovieLoadingResult> { actions ->
             actions.switchMap { it ->
                 movieItemUseCase
-                    .buildUseCaseObservable(it.movieId)
+                    .execute(it.movieId)
                     .toObservable()
                     .map { GetMovieLoadingResult.Success(it) }
                     .cast(GetMovieLoadingResult::class.java)

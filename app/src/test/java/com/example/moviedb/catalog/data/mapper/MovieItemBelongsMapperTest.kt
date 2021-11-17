@@ -10,7 +10,7 @@ class MovieItemBelongsMapperTest {
     fun fromRemoteToDomain() {
         val movieItemBelongsMapper = MovieItemBelongsMapper()
         assertNotNull(with(movieItemBelongsMapper) {
-            remoteMovieItemBelongs.fromRemoteToDomain()
+            remoteMovieItemBelongs.toDomain()
         })
     }
 

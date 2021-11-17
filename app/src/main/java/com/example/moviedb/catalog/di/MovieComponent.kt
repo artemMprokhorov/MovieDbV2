@@ -1,17 +1,33 @@
 package com.example.moviedb.catalog.di
 
-import com.example.moviedb.catalog.ui.activity.MovieActivity
-import com.example.moviedb.common.di.ActivityScope
-import com.example.moviedb.common.di.ApplicationComponent
+import android.app.Application
+import com.example.moviedb.MovieDbApp
+import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 @Component(
-    modules = [PresentationModule::class, RemoteModule::class, DataModule::class],
-    dependencies = [ApplicationComponent::class]
+    modules = [
+        ActivityBuilderModule::class,
+        PresentationModule::class,
+        RemoteModule::class,
+        DataModule::class,
+        ContextModule::class,
+        AndroidInjectionModule::class
+    ]
 )
-interface MovieComponent {
 
-    fun inject(movieActivity: MovieActivity)
+interface AppComponent : AndroidInjector<MovieDbApp> {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
 
+        fun build(): AppComponent
+    }
+
+    override fun inject(app: MovieDbApp)
 }

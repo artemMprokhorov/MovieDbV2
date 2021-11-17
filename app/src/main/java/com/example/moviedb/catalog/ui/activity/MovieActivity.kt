@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviedb.MovieDbApp
 import com.example.moviedb.R
-import com.example.moviedb.catalog.di.DaggerMovieComponent
 import com.example.moviedb.catalog.presentation.intent.MovieUserIntent
 import com.example.moviedb.catalog.presentation.model.UiMovieItem
 import com.example.moviedb.catalog.presentation.model.UiPopular
@@ -27,15 +24,16 @@ import com.example.moviedb.catalog.ui.adapter.MovieAdapter
 import com.example.moviedb.catalog.ui.fragment.MovieItemDialogFragment
 import com.example.moviedb.catalog.ui.view.ErrorView
 import com.example.moviedb.catalog.ui.view.LoadingView
-import com.example.moviedb.common.di.ViewModelFactory
+import com.example.moviedb.common.factory.ViewModelFactory
 import com.example.moviedb.common.presentation.mvi.MviUi
 import com.example.moviedb.databinding.ActivityMovieBinding
+import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
-class MovieActivity : AppCompatActivity(), MviUi<MovieUserIntent, MovieState> {
+class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieState> {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -64,7 +62,6 @@ class MovieActivity : AppCompatActivity(), MviUi<MovieUserIntent, MovieState> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupInjection()
         setupActivity()
         subscribeUiStatesAndProcessUserIntents()
         setupAdapter()
@@ -79,14 +76,6 @@ class MovieActivity : AppCompatActivity(), MviUi<MovieUserIntent, MovieState> {
         binding.viewModel = viewModel
         loading = binding.loading
         error = binding.error
-    }
-
-    private fun setupInjection() {
-        DaggerMovieComponent
-            .builder()
-            .applicationComponent(MovieDbApp.applicationComponent)
-            .build()
-            .inject(this)
     }
 
     private fun setupAdapter() {
@@ -116,11 +105,11 @@ class MovieActivity : AppCompatActivity(), MviUi<MovieUserIntent, MovieState> {
         )
 
 
-    private fun executeInit(pageNum: String?) {
+    private fun executeInit(pageNum: String) {
         initialIntent.onNext(MovieUserIntent.InitialUserIntent(pageNum))
     }
 
-    private fun executeLoad(movieId: String?) {
+    private fun executeLoad(movieId: String) {
         loadingIntent.onNext(MovieUserIntent.MovieLoadingUserIntent(movieId))
     }
 
@@ -148,7 +137,7 @@ class MovieActivity : AppCompatActivity(), MviUi<MovieUserIntent, MovieState> {
             MovieState.Loading -> setScreenForLoading(uiState.isLoading)
             is MovieState.SuccessState -> {
                 setScreenForSuccess(uiState.popular)
-                currentPageNum = uiState.popular.page!!
+                currentPageNum = uiState.popular.page
             }
             is MovieState.Error -> {
                 setScreenForContent(false)

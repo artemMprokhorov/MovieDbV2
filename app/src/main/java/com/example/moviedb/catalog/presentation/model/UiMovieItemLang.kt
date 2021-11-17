@@ -2,6 +2,6 @@ package com.example.moviedb.catalog.presentation.model
 
 
 data class UiMovieItemLang(
-    val iso: String?,
-    val name: String?
+    val iso: String,
+    val name: String
 )

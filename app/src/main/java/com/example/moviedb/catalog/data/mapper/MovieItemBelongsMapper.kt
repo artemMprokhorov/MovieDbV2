@@ -6,11 +6,17 @@ import javax.inject.Inject
 
 class MovieItemBelongsMapper @Inject constructor() {
 
-    fun RemoteMovieItemBelongs.fromRemoteToDomain(): DomainMovieItemBelongs =
-        DomainMovieItemBelongs(
-            id = id,
-            name = name,
-            backdrop_path = backdrop_path,
-            poster_path = poster_path
-        )
+    fun RemoteMovieItemBelongs.toDomain() = DomainMovieItemBelongs(
+        id = id.orEmpty(),
+        name = name.orEmpty(),
+        backdropPath = backdropPath.orEmpty(),
+        posterPath = posterPath.orEmpty()
+    )
+
+    fun makeEmptyDomainMovieItemBelongs() = DomainMovieItemBelongs(
+        id = "",
+        name = "",
+        backdropPath = "",
+        posterPath = ""
+    )
 }

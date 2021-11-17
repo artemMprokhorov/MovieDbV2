@@ -10,7 +10,7 @@ class MovieItemGenresMapperTest {
     fun fromRemoteToDomain() {
         val movieItemGenresMapper = MovieItemGenresMapper()
         assertNotNull(with(movieItemGenresMapper) {
-            remoteMovieItemGenre.fromRemoteToDomain()
+            remoteMovieItemGenre.toDomain()
         })
     }
 

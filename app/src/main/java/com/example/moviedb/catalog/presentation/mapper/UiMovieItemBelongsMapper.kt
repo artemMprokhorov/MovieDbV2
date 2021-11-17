@@ -6,10 +6,10 @@ import javax.inject.Inject
 
 class UiMovieItemBelongsMapper @Inject constructor() {
 
-    fun DomainMovieItemBelongs.fromDomainToUi(): UiMovieItemBelongs = UiMovieItemBelongs(
+    fun DomainMovieItemBelongs.toUi() = UiMovieItemBelongs(
         id = id,
         name = name,
-        backdrop_path = backdrop_path,
-        poster_path = poster_path
+        backdropPath = backdropPath,
+        posterPath = posterPath
     )
 }

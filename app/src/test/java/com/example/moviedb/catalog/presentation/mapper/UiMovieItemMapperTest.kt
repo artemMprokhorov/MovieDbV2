@@ -15,7 +15,7 @@ class UiMovieItemMapperTest {
         val uiMovieItemGenresMapper = UiMovieItemGenresMapper()
         val uiMovieItemBelongsMapper = UiMovieItemBelongsMapper()
         assertNotNull(with(uiMovieItemMapper) {
-            domainMovieItem.fromDomainToUi(
+            domainMovieItem.toUi(
                 uiMovieItemLangMapper,
                 uiMovieItemProdCountMapper,
                 uiMovieItemProdCompMapper,

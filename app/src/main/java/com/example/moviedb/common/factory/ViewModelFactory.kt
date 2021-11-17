@@ -1,4 +1,4 @@
-package com.example.moviedb.common.di
+package com.example.moviedb.common.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 
 data class RemotePopular(
     @SerializedName(PAGE) val page: Long?,
-    @SerializedName(TOTAL_RESULTS) val total_results: Long?,
-    @SerializedName(TOTAL_PAGES) val total_pages: Long?,
+    @SerializedName(TOTAL_RESULTS) val totalResults: Long?,
+    @SerializedName(TOTAL_PAGES) val totalPages: Long?,
     @SerializedName(RESULTS) val results: List<RemotePopularItem>?
 )

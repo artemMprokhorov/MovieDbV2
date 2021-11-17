@@ -10,7 +10,7 @@ class UiMovieItemGenresMapperTest {
     fun fromDomainToUi() {
         val uiMovieItemGenresMapper = UiMovieItemGenresMapper()
         assertNotNull(with(uiMovieItemGenresMapper) {
-            domainMovieItemGenre.fromDomainToUi()
+            domainMovieItemGenre.toUi()
         })
     }
 

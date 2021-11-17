@@ -12,8 +12,9 @@ import java.util.concurrent.TimeUnit
 import javax.net.SocketFactory
 
 abstract class ApiClient<T> :
-    BaseApiClient<T, OkHttpClient?, Interceptor?>() {
-    override fun initApi(client: OkHttpClient?): T {
+    BaseApiClient<T, OkHttpClient, Interceptor>() {
+
+    override fun initApi(client: OkHttpClient): T {
         return Retrofit.Builder().baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -22,7 +23,7 @@ abstract class ApiClient<T> :
             .create(getApiService())
     }
 
-    override fun initClient(): OkHttpClient? {
+    override fun initClient(): OkHttpClient {
         return initRetrofit()
     }
 
@@ -30,21 +31,18 @@ abstract class ApiClient<T> :
         return null
     }
 
-    private fun initRetrofit(): OkHttpClient? {
-        return try {
-            val httpLogInterceptor = HttpLoggingInterceptor()
-            val okHttpBuilder = OkHttpClient.Builder()
-            okHttpBuilder.socketFactory(SocketFactory.getDefault())
-            okHttpBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS)
-            okHttpBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-            httpLogInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            okHttpBuilder.addInterceptor(httpLogInterceptor)
-            okHttpBuilder.build()
-        } catch (e: Exception) {
-            null
-        }
+    private fun initRetrofit(): OkHttpClient {
+        val httpLogInterceptor = HttpLoggingInterceptor()
+        val okHttpBuilder = OkHttpClient.Builder()
+        okHttpBuilder.socketFactory(SocketFactory.getDefault())
+        okHttpBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS)
+        okHttpBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+        httpLogInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        okHttpBuilder.addInterceptor(httpLogInterceptor)
+        return okHttpBuilder.build()
     }
 
-    private val baseURL: String = BuildConfig.API_URL
-
+    companion object {
+        private const val baseURL: String = BuildConfig.API_URL
+    }
 }

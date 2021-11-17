@@ -15,7 +15,7 @@ class MovieItemMapperTest {
         val movieItemGenresMapper = MovieItemGenresMapper()
         val movieItemBelongsMapper = MovieItemBelongsMapper()
         assertNotNull(with(movieItemMapper) {
-            remoteMovieItem.fromRemoteToDomain(
+            remoteMovieItem.toDomain(
                 movieItemLangMapper,
                 movieItemProdCountMapper,
                 movieItemProdCompMapper,

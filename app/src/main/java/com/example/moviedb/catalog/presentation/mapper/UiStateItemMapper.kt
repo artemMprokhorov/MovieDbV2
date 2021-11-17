@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class UiStateItemMapper @Inject constructor() {
 
-    fun DomainPopularItem.fromDomainToUi(): UiPopularItem = UiPopularItem(
+    fun DomainPopularItem.toUi() = UiPopularItem(
         popularity = popularity,
         voteCount = voteCount,
         video = video,

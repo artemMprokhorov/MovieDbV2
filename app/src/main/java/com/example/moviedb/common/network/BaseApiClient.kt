@@ -1,6 +1,5 @@
 package com.example.moviedb.common.network
 
-
 abstract class BaseApiClient<T, K, V> {
     var apiService: T? = null
     private var errorHandlers: List<V>? = null
@@ -11,5 +10,4 @@ abstract class BaseApiClient<T, K, V> {
     protected abstract fun initApi(client: K): T
     protected abstract fun initClient(): K
     protected abstract fun getApiService(): Class<T>?
-
 }

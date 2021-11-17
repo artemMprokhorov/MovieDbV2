@@ -10,7 +10,7 @@ class UiMovieItemBelongsMapperTest {
     fun fromDomainToUi() {
         val uiMovieItemBelongsMapper = UiMovieItemBelongsMapper()
         assertNotNull(with(uiMovieItemBelongsMapper) {
-            domainMovieItemBelongs.fromDomainToUi()
+            domainMovieItemBelongs.toUi()
         })
     }
 

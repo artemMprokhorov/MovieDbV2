@@ -10,7 +10,7 @@ class UiMovieItemLangMapperTest {
     fun fromDomainToUi() {
         val uiMovieItemLangMapper = UiMovieItemLangMapper()
         assertNotNull(with(uiMovieItemLangMapper) {
-            domainMovieItemLang.fromDomainToUi()
+            domainMovieItemLang.toUi()
         })
     }
 

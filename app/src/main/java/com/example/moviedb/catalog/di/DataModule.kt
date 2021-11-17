@@ -10,5 +10,4 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindInboxDataRepository(dataRepository: MovieDataRepository): MovieRepository
-
 }

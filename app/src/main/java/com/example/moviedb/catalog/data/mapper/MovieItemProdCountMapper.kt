@@ -6,10 +6,8 @@ import javax.inject.Inject
 
 class MovieItemProdCountMapper @Inject constructor() {
 
-    fun RemoteMovieItemProdCount.fromRemoteToDomain(): DomainMovieItemProdCount =
-        DomainMovieItemProdCount(
-            iso = iso,
-            name = name
-
-        )
+    fun RemoteMovieItemProdCount.fromRemoteToDomain() = DomainMovieItemProdCount(
+        iso = iso.orEmpty(),
+        name = name.orEmpty()
+    )
 }

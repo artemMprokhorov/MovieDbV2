@@ -1,4 +1,4 @@
-package com.example.moviedb.common.domain.executer
+package com.example.moviedb.common.presentation.execution
 
 import io.reactivex.Scheduler
 

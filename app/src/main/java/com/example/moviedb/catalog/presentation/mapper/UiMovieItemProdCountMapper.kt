@@ -6,9 +6,8 @@ import javax.inject.Inject
 
 class UiMovieItemProdCountMapper @Inject constructor() {
 
-    fun DomainMovieItemProdCount.fromDomainToUi(): UiMovieItemProdCount = UiMovieItemProdCount(
+    fun DomainMovieItemProdCount.toUi() = UiMovieItemProdCount(
         iso = iso,
         name = name
-
     )
 }

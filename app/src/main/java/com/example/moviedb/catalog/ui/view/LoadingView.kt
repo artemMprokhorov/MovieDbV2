@@ -22,5 +22,4 @@ class LoadingView @JvmOverloads constructor(
     private fun setBackgroundWithTransparency() {
         setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhiteTransparent))
     }
-
 }

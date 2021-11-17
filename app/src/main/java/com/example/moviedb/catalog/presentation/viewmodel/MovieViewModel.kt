@@ -77,7 +77,7 @@ class MovieViewModel @Inject constructor(
                         is MovieResult.GetMovieResult.Success -> MovieState.SuccessState(
 
                             with(uiMovieStateMapper) {
-                                result.state.fromDomainToUi(uiStateItemMapper)
+                                result.state.toUi(uiStateItemMapper)
                             })
 
                         is MovieResult.GetMovieResult.Error -> MovieState.Error(result.error)
@@ -90,7 +90,7 @@ class MovieViewModel @Inject constructor(
 
                         is MovieResult.GetMovieLoadingResult.Success -> MovieState.SuccessMovieLoading(
                             with(uiMovieItemMapper) {
-                                result.domainMovieItem.fromDomainToUi(
+                                result.domainMovieItem.toUi(
                                     uiMovieItemLangMapper, uiMovieItemProdCountMapper,
                                     uiMovieItemProdCompMapper, uiMovieItemGenresMapper,
                                     uiMovieItemBelongsMapper

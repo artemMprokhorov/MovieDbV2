@@ -6,8 +6,7 @@ import io.reactivex.Single
 
 interface MovieRepository {
 
-    fun getPopular(pageNum: String?): Single<DomainPopular>
+    fun getPopular(pageNum: String): Single<DomainPopular>
 
-    fun getMovieItem(movieId: String?): Single<DomainMovieItem>
-
+    fun getMovieItem(movieId: String): Single<DomainMovieItem>
 }

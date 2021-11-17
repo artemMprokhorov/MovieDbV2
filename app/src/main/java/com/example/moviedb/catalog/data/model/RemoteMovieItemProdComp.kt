@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 
 data class RemoteMovieItemProdComp(
     @SerializedName(ID) val id: String?,
-    @SerializedName(LOGO_PATH) val logo_path: String?,
+    @SerializedName(LOGO_PATH) val logoPath: String?,
     @SerializedName(NAME) val name: String?,
-    @SerializedName(ORIGIN_COUNTRY) val origin_country: String?
+    @SerializedName(ORIGIN_COUNTRY) val originCountry: String?
 )

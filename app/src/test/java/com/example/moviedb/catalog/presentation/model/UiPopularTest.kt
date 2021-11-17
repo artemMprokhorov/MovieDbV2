@@ -15,8 +15,8 @@ class UiPopularTest {
         uiPopular = makeUiPopular()
 
         assertNotNull(uiPopular.page)
-        assertNotNull(uiPopular.total_results)
-        assertNotNull(uiPopular.total_pages)
+        assertNotNull(uiPopular.totalResults)
+        assertNotNull(uiPopular.totalPages)
         assertNotNull(uiPopular.results)
     }
 

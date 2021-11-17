@@ -9,6 +9,6 @@ import com.google.gson.annotations.SerializedName
 data class RemoteMovieItemBelongs(
     @SerializedName(ID) val id: String?,
     @SerializedName(NAME) val name: String?,
-    @SerializedName(POSTER_PATH) val poster_path: String?,
-    @SerializedName(BACKDROP_PATH) val backdrop_path: String?
+    @SerializedName(POSTER_PATH) val posterPath: String?,
+    @SerializedName(BACKDROP_PATH) val backdropPath: String?
 )

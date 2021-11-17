@@ -10,15 +10,14 @@ class MovieApiDataSource @Inject constructor(
     private val movieRestApi: MovieRestApi
 ) : MovieDataSource {
 
-    override fun getPopular(pageNum: String?, apiKey: String?): Single<RemotePopular> {
+    override fun getPopular(pageNum: String, apiKey: String): Single<RemotePopular> {
         return movieRestApi.getPopular(pageNum, apiKey)
     }
 
     override fun getMovieItem(
-        movieId: String?,
-        apiKey: String?
+        movieId: String,
+        apiKey: String
     ): Single<RemoteMovieItem> {
         return movieRestApi.getMovieItem(movieId, apiKey)
     }
-
 }

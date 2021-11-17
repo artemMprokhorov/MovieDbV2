@@ -6,57 +6,56 @@ import javax.inject.Inject
 
 class UiMovieItemMapper @Inject constructor() {
 
-    fun DomainMovieItem.fromDomainToUi(
+    fun DomainMovieItem.toUi(
         uiMovieItemLangMapper: UiMovieItemLangMapper,
         uiMovieItemProdCountMapper: UiMovieItemProdCountMapper,
         uiMovieItemProdCompMapper: UiMovieItemProdCompMapper,
         uiMovieItemGenresMapper: UiMovieItemGenresMapper,
         uiMovieItemBelongsMapper: UiMovieItemBelongsMapper
-    ): UiMovieItem = UiMovieItem(
+    ) = UiMovieItem(
         adult = adult,
-        backdrop_path = backdrop_path,
-        belongs_to_collection =
+        backdropPath = backdropPath,
+        belongsToCollection =
         with(uiMovieItemBelongsMapper) {
-            belongs_to_collection?.fromDomainToUi()
+            belongsToCollection.toUi()
 
         },
         budget = budget,
-        genres = genres?.map {
+        genres = genres.map {
             with(uiMovieItemGenresMapper) {
-                it.fromDomainToUi()
+                it.toUi()
             }
         },
         homepage = homepage,
         id = id,
-        imdb_id = imdb_id,
-        original_language = original_language,
-        original_title = original_title,
+        imdbId = imdbId,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
         overview = overview,
         popularity = popularity,
-        poster_path = poster_path,
-        production_companies = production_companies?.map {
+        posterPath = posterPath,
+        productionCompanies = productionCompanies.map {
             with(uiMovieItemProdCompMapper) {
-                it.fromDomainToUi()
+                it.toUi()
             }
         },
-        production_countries = production_countries?.map {
+        productionCountries = productionCountries.map {
             with(uiMovieItemProdCountMapper) {
-                it.fromDomainToUi()
+                it.toUi()
             }
         },
-        release_date = release_date,
+        releaseDate = releaseDate,
         revenue = revenue,
-        spoken_languages = spoken_languages?.map {
+        spokenLanguages = spokenLanguages.map {
             with(uiMovieItemLangMapper) {
-                it.fromDomainToUi()
+                it.toUi()
             }
         },
         status = status,
         tagline = tagline,
         title = title,
         video = video,
-        vote_average = vote_average,
-        vote_count = vote_count
-
+        voteAverage = voteAverage,
+        voteCount = voteCount
     )
 }

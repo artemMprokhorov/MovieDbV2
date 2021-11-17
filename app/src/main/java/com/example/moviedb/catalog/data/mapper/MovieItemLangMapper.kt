@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class MovieItemLangMapper @Inject constructor() {
 
-    fun RemoteMovieItemLang.fromRemoteToDomain(): DomainMovieItemLang = DomainMovieItemLang(
-        iso = iso,
-        name = name
+    fun RemoteMovieItemLang.toDomain() = DomainMovieItemLang(
+        iso = iso.orEmpty(),
+        name = name.orEmpty()
     )
 }

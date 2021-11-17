@@ -188,7 +188,7 @@
                             android:layout_marginBottom="@dimen/dimen_5dp"
                             android:layout_toEndOf="@+id/vote_descr"
                             android:singleLine="true"
-                            android:text="@{movieItem.vote_count}"
+                            android:text="@{movieItem.voteCount}"
                             android:visibility="visible"
                             tools:text="@tools:sample/lorem/random" />
 
@@ -224,7 +224,7 @@
                             android:layout_marginBottom="@dimen/dimen_5dp"
                             android:layout_toEndOf="@+id/vote_average_descr"
                             android:singleLine="true"
-                            android:text="@{movieItem.vote_average}"
+                            android:text="@{movieItem.voteAverage}"
                             android:visibility="visible"
                             tools:text="@tools:sample/lorem/random" />
 
@@ -295,7 +295,7 @@
                             android:layout_marginBottom="@dimen/dimen_5dp"
                             android:layout_toEndOf="@+id/original_language_descr"
                             android:singleLine="true"
-                            android:text="@{movieItem.original_language}"
+                            android:text="@{movieItem.originalLanguage}"
                             android:visibility="visible"
                             tools:text="@tools:sample/lorem/random" />
 
@@ -330,7 +330,7 @@
                             android:layout_marginBottom="@dimen/dimen_5dp"
                             android:layout_toEndOf="@+id/original_title_descr"
                             android:singleLine="true"
-                            android:text="@{movieItem.original_title}"
+                            android:text="@{movieItem.originalTitle}"
                             android:visibility="visible"
                             tools:text="@tools:sample/lorem/random" />
 
@@ -400,7 +400,7 @@
                             android:layout_marginBottom="@dimen/dimen_5dp"
                             android:layout_toEndOf="@+id/release_date_descr"
                             android:singleLine="false"
-                            android:text="@{movieItem.release_date}"
+                            android:text="@{movieItem.releaseDate}"
                             android:visibility="visible"
                             tools:text="@tools:sample/lorem/random" />
 
@@ -472,7 +472,7 @@
                             android:layout_marginBottom="@dimen/dimen_5dp"
                             android:layout_toEndOf="@+id/imdb_id_descr"
                             android:singleLine="false"
-                            android:text="@{movieItem.imdb_id}"
+                            android:text="@{movieItem.imdbId}"
                             android:visibility="visible"
                             tools:text="@tools:sample/lorem/random" />
 

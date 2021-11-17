@@ -6,57 +6,56 @@ import javax.inject.Inject
 
 class MovieItemMapper @Inject constructor() {
 
-    fun RemoteMovieItem.fromRemoteToDomain(
+    fun RemoteMovieItem.toDomain(
         movieItemLangMapper: MovieItemLangMapper,
         movieItemProdCountMapper: MovieItemProdCountMapper,
         movieItemProdCompMapper: MovieItemProdCompMapper,
         movieItemGenresMapper: MovieItemGenresMapper,
         movieItemBelongsMapper: MovieItemBelongsMapper
-    ): DomainMovieItem = DomainMovieItem(
-        adult = adult,
-        backdrop_path = backdrop_path,
-        belongs_to_collection =
+    ) = DomainMovieItem(
+        adult = adult.orEmpty(),
+        backdropPath = backdropPath.orEmpty(),
+        belongsToCollection =
         with(movieItemBelongsMapper) {
-            belongs_to_collection?.fromRemoteToDomain()
+            belongsToCollection?.toDomain()
 
-        },
-        budget = budget,
+        }?: movieItemBelongsMapper.makeEmptyDomainMovieItemBelongs(),
+        budget = budget.orEmpty(),
         genres = genres?.map {
             with(movieItemGenresMapper) {
-                it.fromRemoteToDomain()
+                it.toDomain()
             }
-        },
-        homepage = homepage,
-        id = id,
-        imdb_id = imdb_id,
-        original_language = original_language,
-        original_title = original_title,
-        overview = overview,
-        popularity = popularity,
-        poster_path = poster_path,
-        production_companies = production_companies?.map {
+        }.orEmpty(),
+        homepage = homepage.orEmpty(),
+        id = id.orEmpty(),
+        imdbId = imdbId.orEmpty(),
+        originalLanguage = originalLanguage.orEmpty(),
+        originalTitle = originalTitle.orEmpty(),
+        overview = overview.orEmpty(),
+        popularity = popularity.orEmpty(),
+        posterPath = posterPath.orEmpty(),
+        productionCompanies = productionCompanies?.map {
             with(movieItemProdCompMapper) {
-                it.fromRemoteToDomain()
+                it.toDomain()
             }
-        },
-        production_countries = production_countries?.map {
+        }.orEmpty(),
+        productionCountries = productionCountries?.map {
             with(movieItemProdCountMapper) {
                 it.fromRemoteToDomain()
             }
-        },
-        release_date = release_date,
-        revenue = revenue,
-        spoken_languages = spoken_languages?.map {
+        }.orEmpty(),
+        releaseDate = releaseDate.orEmpty(),
+        revenue = revenue.orEmpty(),
+        spokenLanguages = spokenLanguages?.map {
             with(movieItemLangMapper) {
-                it.fromRemoteToDomain()
+                it.toDomain()
             }
-        },
-        status = status,
-        tagline = tagline,
-        title = title,
-        video = video,
-        vote_average = vote_average,
-        vote_count = vote_count
-
+        }.orEmpty(),
+        status = status.orEmpty(),
+        tagline = tagline.orEmpty(),
+        title = title.orEmpty(),
+        video = video.orEmpty(),
+        voteAverage = voteAverage.orEmpty(),
+        voteCount = voteCount.orEmpty()
     )
 }

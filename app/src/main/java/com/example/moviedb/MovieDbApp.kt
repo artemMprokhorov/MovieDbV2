@@ -1,41 +1,12 @@
 package com.example.moviedb
 
-import android.app.Application
-import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
-import com.example.moviedb.common.di.ApplicationComponent
-import com.example.moviedb.common.di.DaggerApplicationComponent
+import com.example.moviedb.catalog.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-open class MovieDbApp : Application() {
+class MovieDbApp : DaggerApplication() {
 
-    override fun onCreate() {
-        super.onCreate()
-        context = applicationContext
-        restrictDarkMode()
-        onInjectApplication()
-    }
+    private val applicationInjector = DaggerAppComponent.builder().application(this).build()
 
-    private fun restrictDarkMode() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-    }
-
-    private fun onInjectApplication() {
-        applicationComponent =
-            DaggerApplicationComponent.factory().create(applicationContext)
-        applicationComponent!!.inject(this)
-    }
-
-
-    companion object {
-        var applicationComponent: ApplicationComponent? = null
-            private set
-
-        lateinit var context: Context
-            private set
-
-        init {
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        }
-    }
-
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = applicationInjector
 }

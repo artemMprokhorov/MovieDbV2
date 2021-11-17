@@ -6,12 +6,10 @@ import javax.inject.Inject
 
 class MovieItemProdCompMapper @Inject constructor() {
 
-    fun RemoteMovieItemProdComp.fromRemoteToDomain(): DomainMovieItemProdComp =
-        DomainMovieItemProdComp(
-            id = id,
-            logo_path = logo_path,
-            name = name,
-            origin_country = origin_country
-
-        )
+    fun RemoteMovieItemProdComp.toDomain() = DomainMovieItemProdComp(
+        id = id.orEmpty(),
+        logoPath = logoPath.orEmpty(),
+        name = name.orEmpty(),
+        originCountry = originCountry.orEmpty()
+    )
 }

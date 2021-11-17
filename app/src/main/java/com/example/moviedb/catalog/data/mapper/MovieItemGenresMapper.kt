@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class MovieItemGenresMapper @Inject constructor() {
 
-    fun RemoteMovieItemGenre.fromRemoteToDomain(): DomainMovieItemGenre = DomainMovieItemGenre(
-        id = id,
-        name = name
+    fun RemoteMovieItemGenre.toDomain() = DomainMovieItemGenre(
+        id = id.orEmpty(),
+        name = name.orEmpty()
     )
 }

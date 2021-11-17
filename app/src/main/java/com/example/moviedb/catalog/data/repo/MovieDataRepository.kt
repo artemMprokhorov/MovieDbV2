@@ -19,21 +19,20 @@ class MovieDataRepository @Inject constructor(
     private val movieItemProdCompMapper: MovieItemProdCompMapper,
     private val movieItemGenresMapper: MovieItemGenresMapper,
     private val movieItemBelongsMapper: MovieItemBelongsMapper
-) :
-    MovieRepository {
+) : MovieRepository {
 
-    override fun getPopular(pageNum: String?): Single<DomainPopular> {
+    override fun getPopular(pageNum: String): Single<DomainPopular> {
         return movieDataSource.getPopular(pageNum, getApiKey()).map {
             with(popularMapper) { it.fromRemoteToDomain(popularItemMapper) }
         }
     }
 
-    override fun getMovieItem(movieId: String?): Single<DomainMovieItem> =
+    override fun getMovieItem(movieId: String): Single<DomainMovieItem> =
         movieDataSource
             .getMovieItem(movieId, getApiKey())
             .map {
                 with(movieItemMapper) {
-                    it.fromRemoteToDomain(
+                    it.toDomain(
                         movieItemLangMapper,
                         movieItemProdCountMapper,
                         movieItemProdCompMapper,
@@ -43,6 +42,6 @@ class MovieDataRepository @Inject constructor(
                 }
             }
 
-    private fun getApiKey(): String? = BuildConfig.API_KEY
+    private fun getApiKey(): String = BuildConfig.API_KEY
 
 }

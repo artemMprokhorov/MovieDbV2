@@ -61,7 +61,7 @@ class MovieItemDialogFragment(private val imageLoader: ImageLoader?) : AppCompat
     private fun setContent(uiMovieItem: UiMovieItem) {
         binding?.movieItem = uiMovieItem
         toolbarTitle.set(uiMovieItem.title)
-        uiMovieItem.poster_path?.let {
+        uiMovieItem.posterPath.let {
             binding?.previewImg?.let { it1 ->
                 imageLoader?.setImage(
                     it1, BuildConfig.API_IMG, it, POSTER_OVERRIDED_WIDTH, POSTER_OVERRIDED_HEIGHT

@@ -10,7 +10,7 @@ class UiMovieItemProdCountMapperTest {
     fun fromDomainToUi() {
         val uiMovieItemProdCountMapper = UiMovieItemProdCountMapper()
         assertNotNull(with(uiMovieItemProdCountMapper) {
-            domainMovieItemProdCount.fromDomainToUi()
+            domainMovieItemProdCount.toUi()
         })
     }
 

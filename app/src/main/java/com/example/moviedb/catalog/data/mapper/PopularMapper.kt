@@ -6,15 +6,15 @@ import javax.inject.Inject
 
 class PopularMapper @Inject constructor() {
 
-    fun RemotePopular.fromRemoteToDomain(popularItemMapper: PopularItemMapper): DomainPopular =
+    fun RemotePopular.fromRemoteToDomain(popularItemMapper: PopularItemMapper) =
         DomainPopular(
-            page = page,
-            total_results = total_results,
-            total_pages = total_pages,
+            page = page ?: 0,
+            totalResults = totalResults ?: 0,
+            totalPages = totalPages ?: 0,
             results = results?.map {
                 with(popularItemMapper) {
-                    it.fromRemoteToDomain()
+                    it.toDomain()
                 }
-            }
+            }.orEmpty()
         )
 }
