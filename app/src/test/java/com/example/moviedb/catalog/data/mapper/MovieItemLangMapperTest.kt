@@ -9,13 +9,10 @@ class MovieItemLangMapperTest {
     @Test
     fun fromRemoteToDomain() {
         val movieItemLangMapper = MovieItemLangMapper()
+        val remoteMovieItemLang = makeRemoteMovieItemLang()
+
         assertNotNull(with(movieItemLangMapper) {
             remoteMovieItemLang.toDomain()
         })
-    }
-
-
-    companion object {
-        val remoteMovieItemLang = makeRemoteMovieItemLang()
     }
 }

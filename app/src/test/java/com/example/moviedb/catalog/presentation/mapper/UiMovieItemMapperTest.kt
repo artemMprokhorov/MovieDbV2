@@ -14,6 +14,8 @@ class UiMovieItemMapperTest {
         val uiMovieItemProdCompMapper = UiMovieItemProdCompMapper()
         val uiMovieItemGenresMapper = UiMovieItemGenresMapper()
         val uiMovieItemBelongsMapper = UiMovieItemBelongsMapper()
+        val domainMovieItem = makeDomainMovieItem()
+
         assertNotNull(with(uiMovieItemMapper) {
             domainMovieItem.toUi(
                 uiMovieItemLangMapper,
@@ -23,9 +25,5 @@ class UiMovieItemMapperTest {
                 uiMovieItemBelongsMapper
             )
         })
-    }
-
-    companion object {
-        val domainMovieItem = makeDomainMovieItem()
     }
 }

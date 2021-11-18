@@ -1,5 +1,6 @@
 package com.example.moviedb.catalog.presentation.mapper
 
+import com.example.moviedb.BuildConfig
 import com.example.moviedb.catalog.domain.model.DomainMovieItem
 import com.example.moviedb.catalog.presentation.model.UiMovieItem
 import javax.inject.Inject
@@ -14,7 +15,7 @@ class UiMovieItemMapper @Inject constructor() {
         uiMovieItemBelongsMapper: UiMovieItemBelongsMapper
     ) = UiMovieItem(
         adult = adult,
-        backdropPath = backdropPath,
+        backdropPath = BuildConfig.API_IMG + backdropPath,
         belongsToCollection =
         with(uiMovieItemBelongsMapper) {
             belongsToCollection.toUi()

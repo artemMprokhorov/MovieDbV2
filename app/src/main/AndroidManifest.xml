@@ -15,10 +15,11 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".catalog.ui.activity.MovieActivity">
+        <activity
+            android:name=".catalog.ui.activity.MovieActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

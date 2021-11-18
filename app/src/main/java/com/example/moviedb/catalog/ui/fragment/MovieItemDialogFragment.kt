@@ -11,38 +11,24 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import com.example.moviedb.BuildConfig
 import com.example.moviedb.R
 import com.example.moviedb.catalog.presentation.model.UiMovieItem
-import com.example.moviedb.catalog.ui.util.Constants.POSTER_OVERRIDED_HEIGHT
-import com.example.moviedb.catalog.ui.util.Constants.POSTER_OVERRIDED_WIDTH
-import com.example.moviedb.catalog.ui.util.ImageLoader
+import com.example.moviedb.commons.extentions.getFromResId
+import com.example.moviedb.commons.extentions.setImageFromUrl
 import com.example.moviedb.databinding.FragmentMovieItemDialogBinding
 
-
-class MovieItemDialogFragment(private val imageLoader: ImageLoader?) : AppCompatDialogFragment() {
+class MovieItemDialogFragment() : AppCompatDialogFragment() {
 
     private var binding: FragmentMovieItemDialogBinding? = null
     val liveDataUiState = MutableLiveData<UiMovieItem>()
     private fun liveData(): LiveData<UiMovieItem> = liveDataUiState
     val toolbarTitle: ObservableField<String> = ObservableField("")
 
-    companion object {
-
-        fun newInstance(
-        ): MovieItemDialogFragment {
-            val dialog = MovieItemDialogFragment(null)
-            dialog.isCancelable = false
-            return dialog
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding: FragmentMovieItemDialogBinding =
             DataBindingUtil.inflate(
@@ -59,12 +45,17 @@ class MovieItemDialogFragment(private val imageLoader: ImageLoader?) : AppCompat
     }
 
     private fun setContent(uiMovieItem: UiMovieItem) {
-        binding?.movieItem = uiMovieItem
-        toolbarTitle.set(uiMovieItem.title)
-        uiMovieItem.posterPath.let {
-            binding?.previewImg?.let { it1 ->
-                imageLoader?.setImage(
-                    it1, BuildConfig.API_IMG, it, POSTER_OVERRIDED_WIDTH, POSTER_OVERRIDED_HEIGHT
+        binding?.apply {
+            movieItem = uiMovieItem
+            toolbarTitle.set(uiMovieItem.title)
+
+            R.drawable.ic_error.getFromResId(previewImg.context)?.let {
+                previewImg.setImageFromUrl(
+                    imgSource = uiMovieItem.backdropPath,
+                    useCache = true,
+                    targetWidth = POSTER_OVERRIDE_WIDTH,
+                    targetHeight = POSTER_OVERRIDE_HEIGHT,
+                    placeholder = it
                 )
             }
         }
@@ -86,12 +77,24 @@ class MovieItemDialogFragment(private val imageLoader: ImageLoader?) : AppCompat
         onLiveDataSubscribe()
     }
 
-
     private fun onLiveDataSubscribe() {
-        liveData().observe(this, Observer<UiMovieItem?> {
-            if (it != null) {
-                setContent(it)
+        liveData().observe(this, { item ->
+            if (item != null) {
+                setContent(item)
             }
         })
+    }
+
+    companion object {
+
+        fun newInstance(
+        ): MovieItemDialogFragment {
+            val dialog = MovieItemDialogFragment()
+            dialog.isCancelable = false
+            return dialog
+        }
+
+        const val POSTER_OVERRIDE_WIDTH = 300
+        const val POSTER_OVERRIDE_HEIGHT = 350
     }
 }

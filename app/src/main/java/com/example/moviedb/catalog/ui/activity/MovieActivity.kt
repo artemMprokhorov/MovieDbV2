@@ -1,31 +1,29 @@
 package com.example.moviedb.catalog.ui.activity
 
+import android.content.Context
 import android.os.Bundle
-import android.view.View
+import android.view.View.*
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
-import com.example.moviedb.catalog.presentation.intent.MovieUserIntent
+import com.example.moviedb.catalog.presentation.MovieState
+import com.example.moviedb.catalog.presentation.MovieUserIntent
+import com.example.moviedb.catalog.presentation.MovieViewModel
 import com.example.moviedb.catalog.presentation.model.UiMovieItem
 import com.example.moviedb.catalog.presentation.model.UiPopular
 import com.example.moviedb.catalog.presentation.model.UiPopularItem
-import com.example.moviedb.catalog.presentation.state.MovieState
-import com.example.moviedb.catalog.presentation.viewmodel.MovieViewModel
-import com.example.moviedb.catalog.ui.activity.Constants.DIRECTION
-import com.example.moviedb.catalog.ui.activity.Constants.INI_PAGE
-import com.example.moviedb.catalog.ui.activity.Constants.LOADING_MORE
-import com.example.moviedb.catalog.ui.activity.Constants.PAGE_INIT_VALUE
 import com.example.moviedb.catalog.ui.adapter.MovieAdapter
 import com.example.moviedb.catalog.ui.fragment.MovieItemDialogFragment
 import com.example.moviedb.catalog.ui.view.ErrorView
 import com.example.moviedb.catalog.ui.view.LoadingView
-import com.example.moviedb.common.factory.ViewModelFactory
-import com.example.moviedb.common.presentation.mvi.MviUi
+import com.example.moviedb.commons.factory.ViewModelFactory
+import com.example.moviedb.commons.mvi.MviUi
 import com.example.moviedb.databinding.ActivityMovieBinding
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.Observable
@@ -44,19 +42,19 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
     @Inject
     lateinit var movieItemDialogFragment: MovieItemDialogFragment
 
+    lateinit var binding: ActivityMovieBinding
+
     private lateinit var loading: LoadingView
 
     private lateinit var error: ErrorView
 
-    lateinit var binding: ActivityMovieBinding
-
     private val liveDataOnChangeState: MutableLiveData<UiPopularItem?> = MutableLiveData()
-
-    val viewModel by viewModels<MovieViewModel> { viewModelFactory }
 
     private val initialIntent = PublishSubject.create<MovieUserIntent.InitialUserIntent>()
 
     private val loadingIntent = PublishSubject.create<MovieUserIntent.MovieLoadingUserIntent>()
+
+    val viewModel by viewModels<MovieViewModel> { viewModelFactory }
 
     var currentPageNum: Long = 0
 
@@ -85,7 +83,7 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
     private fun liveData(): LiveData<UiPopularItem?> = liveDataOnChangeState
 
     private fun onLiveDataSubscribe() {
-        liveData().observe(this, Observer {
+        liveData().observe(this, {
             if (it != null) {
                 onItemClicked(it)
             }
@@ -103,7 +101,6 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
             executeInitialIntent(),
             executeLoadingIntent()
         )
-
 
     private fun executeInit(pageNum: String) {
         initialIntent.onNext(MovieUserIntent.InitialUserIntent(pageNum))
@@ -126,25 +123,24 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
     }
 
     private fun observeUiStates() {
-        viewModel.liveData().observe(this, Observer<MovieState> { uiState ->
+        viewModel.liveData().observe(this, { uiState ->
             uiState?.let { renderUiStates(it) }
         })
     }
 
     override fun renderUiStates(uiState: MovieState) {
         when (uiState) {
-            MovieState.Default -> setDefaultState()
-            MovieState.Loading -> setScreenForLoading(uiState.isLoading)
-            is MovieState.SuccessState -> {
+            MovieState.DefaultState -> setDefaultState()
+            MovieState.LoadingState -> setScreenForLoading(uiState.isLoading)
+            is MovieState.SuccessPopularState -> {
                 setScreenForSuccess(uiState.popular)
                 currentPageNum = uiState.popular.page
             }
-            is MovieState.Error -> {
+            is MovieState.ErrorState -> {
                 setScreenForContent(false)
                 setScreenForError(true)
             }
-
-            is MovieState.SuccessMovieLoading -> onItemLoaded(uiState.uiMovieItem)
+            is MovieState.SuccessItemSelectedState -> onItemLoaded(uiState.uiMovieItem)
         }
     }
 
@@ -153,29 +149,17 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
         setScreenForContent(false)
     }
 
-    private fun setScreenForLoading(isLoading: Boolean) {
-        if (isLoading) {
-            loading.apply {
-                visibility = View.VISIBLE
-            }
-
-        } else {
-            loading.apply {
-                visibility = View.GONE
-            }
+    private fun setScreenForLoading(isLoaded: Boolean) {
+        when (isLoaded) {
+            true -> loading.isVisible = isLoaded
+            else -> loading.isGone = !isLoaded
         }
     }
 
-    fun setScreenForContent(isLoading: Boolean) {
-        if (isLoading) {
-            binding.contentLayout.apply {
-                visibility = View.VISIBLE
-            }
-
-        } else {
-            binding.contentLayout.apply {
-                visibility = View.GONE
-            }
+    fun setScreenForContent(isLoaded: Boolean) {
+        when (isLoaded) {
+            true -> binding.contentLayout.isVisible = isLoaded
+            else -> binding.contentLayout.isGone = !isLoaded
         }
     }
 
@@ -190,7 +174,7 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
             true -> {
                 setScreenForLoading(false)
                 binding.error.apply {
-                    visibility = View.VISIBLE
+                    isVisible = show
                     setErrorDismissListener()
                 }
             }
@@ -199,7 +183,7 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
                     if (movieAdapter.itemCount == 0) {
                         finish()
                     } else {
-                        visibility = View.INVISIBLE
+                        isVisible = !show
                         setScreenForContent(true)
                     }
                 }
@@ -207,11 +191,9 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
         }
     }
 
-
     fun setErrorDismissListener() {
-        binding.itemClickListener = View.OnClickListener { setScreenForError(false) }
+        binding.itemClickListener = OnClickListener { setScreenForError(false) }
     }
-
 
     fun onItemClicked(uiPopularItem: UiPopularItem) {
         executeLoad(uiPopularItem.id)
@@ -222,18 +204,29 @@ class MovieActivity : DaggerAppCompatActivity(), MviUi<MovieUserIntent, MovieSta
         movieItemDialogFragment.show(supportFragmentManager)
     }
 
-
     private fun setLastItemListener() {
-
         binding.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(DIRECTION)) {
-                    Toast.makeText(this@MovieActivity, LOADING_MORE, Toast.LENGTH_LONG).show()
+                    showToast(this@MovieActivity)
                     executeInit((currentPageNum + PAGE_INIT_VALUE).toString())
                 }
             }
         })
     }
 
+    private fun showToast(context: Context) {
+        Toast.makeText(
+            context,
+            context.getString(R.string.loading_more),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    companion object {
+        const val PAGE_INIT_VALUE = 1
+        const val INI_PAGE = "1"
+        const val DIRECTION = 1
+    }
 }

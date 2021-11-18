@@ -19,5 +19,4 @@ class UiPopularTest {
         assertNotNull(uiPopular.totalPages)
         assertNotNull(uiPopular.results)
     }
-
 }

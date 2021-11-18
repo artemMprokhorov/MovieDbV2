@@ -1,4 +1,4 @@
-package com.example.moviedb.common.presentation.execution
+package com.example.moviedb.commons.threads
 
 import io.reactivex.Scheduler
 

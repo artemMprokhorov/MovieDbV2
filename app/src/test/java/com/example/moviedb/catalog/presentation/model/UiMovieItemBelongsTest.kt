@@ -12,10 +12,10 @@ class UiMovieItemBelongsTest {
     fun check_get_set() {
 
         uiMovieItemBelongs = makeUiMovieItemBelongs()
-        uiMovieItemBelongs.id?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemBelongs.name?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemBelongs.posterPath?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemBelongs.backdropPath?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
 
+        uiMovieItemBelongs.id.isNotEmpty().let { kotlin.test.assertTrue(it) }
+        uiMovieItemBelongs.name.isNotEmpty().let { kotlin.test.assertTrue(it) }
+        uiMovieItemBelongs.posterPath.isNotEmpty().let { kotlin.test.assertTrue(it) }
+        uiMovieItemBelongs.backdropPath.isNotEmpty().let { kotlin.test.assertTrue(it) }
     }
 }

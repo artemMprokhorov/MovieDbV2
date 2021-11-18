@@ -1,19 +1,14 @@
-package com.example.moviedb.catalog.presentation.viewmodel
+package com.example.moviedb.catalog.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moviedb.catalog.presentation.action.MovieAction
-import com.example.moviedb.catalog.presentation.action.MovieAction.Movie
-import com.example.moviedb.catalog.presentation.action.MovieAction.MovieLoading
-import com.example.moviedb.catalog.presentation.intent.MovieUserIntent
-import com.example.moviedb.catalog.presentation.intent.MovieUserIntent.InitialUserIntent
-import com.example.moviedb.catalog.presentation.intent.MovieUserIntent.MovieLoadingUserIntent
+import com.example.moviedb.catalog.presentation.MovieAction.Movie
+import com.example.moviedb.catalog.presentation.MovieAction.MovieLoading
+import com.example.moviedb.catalog.presentation.MovieUserIntent.InitialUserIntent
+import com.example.moviedb.catalog.presentation.MovieUserIntent.MovieLoadingUserIntent
 import com.example.moviedb.catalog.presentation.mapper.*
-import com.example.moviedb.catalog.presentation.processor.MovieProcessor
-import com.example.moviedb.catalog.presentation.result.MovieResult
-import com.example.moviedb.catalog.presentation.state.MovieState
-import com.example.moviedb.common.presentation.mvi.MviViewModel
+import com.example.moviedb.commons.mvi.MviViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
@@ -57,7 +52,7 @@ class MovieViewModel @Inject constructor(
     private fun compose(): Observable<MovieState> = userIntentSubject
         .map { userIntent -> transformUserIntentsIntoActions(userIntent) }
         .compose(movieProcessor.actionProcessor)
-        .scan(MovieState.Default, reducer)
+        .scan(MovieState.DefaultState, reducer)
 
 
     private fun transformUserIntentsIntoActions(userIntent: MovieUserIntent): MovieAction =
@@ -72,23 +67,23 @@ class MovieViewModel @Inject constructor(
                 is MovieResult.GetMovieResult ->
                     when (result) {
 
-                        MovieResult.GetMovieResult.InProgress -> MovieState.Loading
+                        MovieResult.GetMovieResult.InProgress -> MovieState.LoadingState
 
-                        is MovieResult.GetMovieResult.Success -> MovieState.SuccessState(
+                        is MovieResult.GetMovieResult.Success -> MovieState.SuccessPopularState(
 
                             with(uiMovieStateMapper) {
                                 result.state.toUi(uiStateItemMapper)
                             })
 
-                        is MovieResult.GetMovieResult.Error -> MovieState.Error(result.error)
+                        is MovieResult.GetMovieResult.Error -> MovieState.ErrorState(result.error)
                     }
 
                 is MovieResult.GetMovieLoadingResult ->
                     when (result) {
 
-                        MovieResult.GetMovieLoadingResult.InProgress -> MovieState.Loading
+                        MovieResult.GetMovieLoadingResult.InProgress -> MovieState.LoadingState
 
-                        is MovieResult.GetMovieLoadingResult.Success -> MovieState.SuccessMovieLoading(
+                        is MovieResult.GetMovieLoadingResult.Success -> MovieState.SuccessItemSelectedState(
                             with(uiMovieItemMapper) {
                                 result.domainMovieItem.toUi(
                                     uiMovieItemLangMapper, uiMovieItemProdCountMapper,
@@ -98,7 +93,7 @@ class MovieViewModel @Inject constructor(
                             }
                         )
 
-                        is MovieResult.GetMovieLoadingResult.Error -> MovieState.Error(result.error)
+                        is MovieResult.GetMovieLoadingResult.Error -> MovieState.ErrorState(result.error)
                     }
             }
         }
@@ -107,5 +102,4 @@ class MovieViewModel @Inject constructor(
         disposable.dispose()
         super.onCleared()
     }
-
 }

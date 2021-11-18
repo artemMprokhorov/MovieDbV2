@@ -1,4 +1,4 @@
-package com.example.moviedb.common.factory
+package com.example.moviedb.commons.factory
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

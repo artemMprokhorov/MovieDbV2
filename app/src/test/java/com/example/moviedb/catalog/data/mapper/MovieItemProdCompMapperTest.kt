@@ -9,12 +9,10 @@ class MovieItemProdCompMapperTest {
     @Test
     fun fromRemoteToDomain() {
         val movieItemProdCompMapper = MovieItemProdCompMapper()
+        val remoteMovieItemProdComp = makeRemoteMovieItemProdComp()
+
         assertNotNull(with(movieItemProdCompMapper) {
             remoteMovieItemProdComp.toDomain()
         })
-    }
-
-    companion object {
-        val remoteMovieItemProdComp = makeRemoteMovieItemProdComp()
     }
 }

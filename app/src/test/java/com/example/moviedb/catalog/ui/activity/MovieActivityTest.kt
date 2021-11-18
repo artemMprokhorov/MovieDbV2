@@ -3,7 +3,7 @@ package com.example.moviedb.catalog.ui.activity
 import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.moviedb.catalog.presentation.state.MovieState
+import com.example.moviedb.catalog.presentation.MovieState
 import com.example.moviedb.catalog.ui.adapter.MovieAdapter
 import com.example.moviedb.catalog.ui.factory.UiItemsFactory
 import com.nhaarman.mockitokotlin2.mock
@@ -15,7 +15,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
 import kotlin.test.assertFalse
-import kotlin.test.assertNotSame
 
 @RunWith(AndroidJUnit4::class)
 class MovieActivityTest {
@@ -44,7 +43,8 @@ class MovieActivityTest {
     @Test
     fun when_renderUiStates_called_with_success_loading_then_check_page_num() {
         activityScenario.onActivity {
-            it.renderUiStates(MovieState.SuccessState(uiPopular))
+            it.renderUiStates(MovieState.SuccessPopularState(uiPopular))
+
             assertTrue(it.currentPageNum > 0)
         }
     }
@@ -53,8 +53,8 @@ class MovieActivityTest {
     fun when_onItemLoaded_then_dialogFragment_visible() {
         activityScenario.onActivity {
             it.onItemLoaded(uiMovieItem)
-            assertTrue(it.movieItemDialogFragment.isVisible)
 
+            assertTrue(it.movieItemDialogFragment.isVisible)
         }
     }
 
@@ -63,8 +63,8 @@ class MovieActivityTest {
         activityScenario.onActivity {
             it.movieItemDialogFragment.show(it.supportFragmentManager)
             it.movieItemDialogFragment.onDismiss()
-            assertFalse(it.movieItemDialogFragment.isVisible)
 
+            assertFalse(it.movieItemDialogFragment.isVisible)
         }
     }
 
@@ -72,6 +72,7 @@ class MovieActivityTest {
     fun when_onItemClicked_without_null_then_content_layout_visible() {
         activityScenario.onActivity {
             it.onItemClicked(uiPopularItem)
+
             assertTrue(it.binding.contentLayout.visibility == View.VISIBLE)
         }
     }
@@ -80,6 +81,7 @@ class MovieActivityTest {
     fun when_setErrorDismissListener_called_then_clickListener_not_null_in_binding() {
         activityScenario.onActivity {
             it.setErrorDismissListener()
+
             assertNotNull(it.binding.itemClickListener)
         }
     }
@@ -88,9 +90,12 @@ class MovieActivityTest {
     fun when_setScreenForError_called_then_check_logic_variants() {
         activityScenario.onActivity {
             it.setScreenForError(true)
+
             assertTrue(it.binding.error.visibility == View.VISIBLE)
+
             whenever(movieAdapter.itemCount).thenReturn(1)
             it.setScreenForError(false)
+
             assertTrue(it.binding.contentLayout.visibility == View.VISIBLE)
         }
     }
@@ -99,6 +104,7 @@ class MovieActivityTest {
     fun when_setScreenForContent_called_with_false_then_layout_gone() {
         activityScenario.onActivity {
             it.setScreenForContent(false)
+
             assertTrue(it.binding.contentLayout.visibility == View.GONE)
         }
     }
@@ -107,6 +113,7 @@ class MovieActivityTest {
     fun when_setDefaultState_loading_layout_visible() {
         activityScenario.onActivity {
             it.setDefaultState()
+
             assertTrue(it.binding.loading.visibility == View.VISIBLE)
             assertTrue(it.binding.contentLayout.visibility == View.GONE)
         }
@@ -116,6 +123,7 @@ class MovieActivityTest {
     fun when_setIncomingData_with_null_then_error_layout_visible() {
         activityScenario.onActivity {
             it.setIncomingData(null)
+
             assertTrue(it.binding.error.visibility == View.VISIBLE)
         }
     }
@@ -123,7 +131,8 @@ class MovieActivityTest {
     @Test
     fun when_renderUiStates_with_error_then_error_layout_visible() {
         activityScenario.onActivity {
-            it.renderUiStates(MovieState.Error(throwable))
+            it.renderUiStates(MovieState.ErrorState(throwable))
+
             assertTrue(it.binding.error.visibility == View.VISIBLE)
         }
     }
@@ -131,20 +140,10 @@ class MovieActivityTest {
     @Test
     fun when_renderUiStates_with_content_then_content_layout_visible() {
         activityScenario.onActivity {
-            it.renderUiStates(MovieState.SuccessMovieLoading(uiMovieItem))
+            it.renderUiStates(MovieState.SuccessItemSelectedState(uiMovieItem))
+
             assertTrue(it.binding.contentLayout.visibility == View.VISIBLE)
         }
-    }
-
-    @Test
-    fun constants_not_null_or_empty() {
-        val constants = Constants
-        assertNotNull(constants.PAGE_INIT_VALUE)
-        assertNotNull(constants.INI_PAGE)
-        assertNotNull(constants.DIRECTION)
-        assertNotNull(constants.LOADING_MORE)
-
-        assertNotSame(constants.LOADING_MORE, EMPTY_STRING)
     }
 
     companion object {
@@ -152,7 +151,5 @@ class MovieActivityTest {
         val uiMovieItem = factory.makeUiMovieItem()
         val uiPopularItem = factory.makeUiPopularItem()
         val uiPopular = factory.makeUiPopular()
-        const val EMPTY_STRING = ""
     }
-
 }

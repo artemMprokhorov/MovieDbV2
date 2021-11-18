@@ -66,5 +66,4 @@ object PresenterItemsFactory {
         RandomFactory.generateString(),
         RandomFactory.generateString()
     )
-
 }

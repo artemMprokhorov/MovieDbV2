@@ -11,8 +11,8 @@ class UiMovieItemLangTest {
     @Test
     fun check_get_set() {
         uiMovieItemLang = makeUiMovieItemLang()
-        uiMovieItemLang.iso?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemLang.name?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-    }
 
+        uiMovieItemLang.iso.isNotEmpty().let { kotlin.test.assertTrue(it) }
+        uiMovieItemLang.name.isNotEmpty().let { kotlin.test.assertTrue(it) }
+    }
 }

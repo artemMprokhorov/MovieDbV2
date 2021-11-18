@@ -9,12 +9,10 @@ class MovieItemBelongsMapperTest {
     @Test
     fun fromRemoteToDomain() {
         val movieItemBelongsMapper = MovieItemBelongsMapper()
+        val remoteMovieItemBelongs = makeRemoteMovieItemBelongs()
+
         assertNotNull(with(movieItemBelongsMapper) {
             remoteMovieItemBelongs.toDomain()
         })
-    }
-
-    companion object {
-        val remoteMovieItemBelongs = makeRemoteMovieItemBelongs()
     }
 }

@@ -9,5 +9,5 @@ import dagger.Module
 abstract class DataModule {
 
     @Binds
-    abstract fun bindInboxDataRepository(dataRepository: MovieDataRepository): MovieRepository
+    abstract fun bindMovieRepository(dataRepository: MovieDataRepository): MovieRepository
 }

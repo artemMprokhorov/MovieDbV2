@@ -1,4 +1,4 @@
-package com.example.moviedb.common.presentation.mvi
+package com.example.moviedb.commons.mvi
 
 import io.reactivex.Observable
 

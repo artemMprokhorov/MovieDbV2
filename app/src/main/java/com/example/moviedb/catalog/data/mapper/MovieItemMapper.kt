@@ -19,7 +19,7 @@ class MovieItemMapper @Inject constructor() {
         with(movieItemBelongsMapper) {
             belongsToCollection?.toDomain()
 
-        }?: movieItemBelongsMapper.makeEmptyDomainMovieItemBelongs(),
+        } ?: movieItemBelongsMapper.makeEmptyDomainMovieItemBelongs(),
         budget = budget.orEmpty(),
         genres = genres?.map {
             with(movieItemGenresMapper) {

@@ -9,12 +9,10 @@ class MovieItemProdCountMapperTest {
     @Test
     fun fromRemoteToDomain() {
         val movieItemProdCountMapper = MovieItemProdCountMapper()
+        val remoteItemProdCount = makeRemoteItemProdCount()
+
         assertNotNull(with(movieItemProdCountMapper) {
             remoteItemProdCount.fromRemoteToDomain()
         })
-    }
-
-    companion object {
-        val remoteItemProdCount = makeRemoteItemProdCount()
     }
 }

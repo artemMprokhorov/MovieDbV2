@@ -9,13 +9,10 @@ class MovieItemGenresMapperTest {
     @Test
     fun fromRemoteToDomain() {
         val movieItemGenresMapper = MovieItemGenresMapper()
+        val remoteMovieItemGenre = makeRemoteMovieItemGenre()
+
         assertNotNull(with(movieItemGenresMapper) {
             remoteMovieItemGenre.toDomain()
         })
-    }
-
-    companion object {
-        val remoteMovieItemGenre = makeRemoteMovieItemGenre()
-
     }
 }

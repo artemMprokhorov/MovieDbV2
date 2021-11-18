@@ -3,10 +3,9 @@ package com.example.moviedb.catalog.di
 import com.example.moviedb.BuildConfig
 import com.example.moviedb.catalog.data.remote.MovieRestApi
 import com.example.moviedb.catalog.data.remote.MovieRestApiImpl
-import com.example.moviedb.catalog.data.source.MovieApiDataSource
 import com.example.moviedb.catalog.data.source.MovieDataSource
-import com.example.moviedb.common.presentation.execution.PostExecutionThread
-import com.example.moviedb.common.presentation.execution.UiThread
+import com.example.moviedb.commons.threads.PostExecutionThread
+import com.example.moviedb.commons.threads.UiThread
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -24,11 +23,12 @@ abstract class RemoteModule {
     @Binds
     abstract fun bindPostExecutionThread(uiThread: UiThread): PostExecutionThread
 
-    @Module
+    @Binds
+    abstract fun bindLifeInsuranceRemote(movieRestApiImpl: MovieRestApiImpl): MovieDataSource
+
     companion object {
 
         @Provides
-        @JvmStatic
         internal fun provideMovieApiService(): MovieRestApi {
             val okHttpBuilder = OkHttpClient
                 .Builder()
@@ -50,22 +50,6 @@ abstract class RemoteModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(MovieRestApi::class.java)
-        }
-
-        @Provides
-        @JvmStatic
-        internal fun provideMovieDataSource(
-            movieRestApi: MovieRestApi
-        ): MovieDataSource {
-            return MovieApiDataSource(movieRestApi)
-        }
-
-        @Provides
-        @JvmStatic
-        internal fun provideMovieRestApi(
-            restApi: MovieRestApi
-        ): MovieRestApiImpl {
-            return MovieRestApiImpl(restApi)
         }
     }
 }

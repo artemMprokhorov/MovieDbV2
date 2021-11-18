@@ -14,6 +14,8 @@ class MovieItemMapperTest {
         val movieItemProdCompMapper = MovieItemProdCompMapper()
         val movieItemGenresMapper = MovieItemGenresMapper()
         val movieItemBelongsMapper = MovieItemBelongsMapper()
+        val remoteMovieItem = makeRemoteMovieItem()
+
         assertNotNull(with(movieItemMapper) {
             remoteMovieItem.toDomain(
                 movieItemLangMapper,
@@ -23,10 +25,5 @@ class MovieItemMapperTest {
                 movieItemBelongsMapper
             )
         })
-    }
-
-
-    companion object {
-        val remoteMovieItem = makeRemoteMovieItem()
     }
 }

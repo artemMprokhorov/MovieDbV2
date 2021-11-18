@@ -1,5 +1,6 @@
 package com.example.moviedb.catalog.presentation.mapper
 
+import com.example.moviedb.BuildConfig
 import com.example.moviedb.catalog.domain.model.DomainPopularItem
 import com.example.moviedb.catalog.presentation.model.UiPopularItem
 import javax.inject.Inject
@@ -13,7 +14,7 @@ class UiStateItemMapper @Inject constructor() {
         posterPath = posterPath,
         id = id,
         adult = adult,
-        backdropPath = backdropPath,
+        backdropPath = BuildConfig.API_IMG + backdropPath,
         originalLanguage = originalLanguage,
         originalTitle = originalTitle,
         title = title,

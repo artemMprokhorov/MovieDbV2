@@ -9,12 +9,10 @@ class UiMovieItemProdCompMapperTest {
     @Test
     fun fromDomainToUi() {
         val uiMovieItemProdCompMapper = UiMovieItemProdCompMapper()
+        val domainMovieItemProdComp = makeDomainMovieItemProdComp()
+
         assertNotNull(with(uiMovieItemProdCompMapper) {
             domainMovieItemProdComp.toUi()
         })
-    }
-
-    companion object {
-        val domainMovieItemProdComp = makeDomainMovieItemProdComp()
     }
 }

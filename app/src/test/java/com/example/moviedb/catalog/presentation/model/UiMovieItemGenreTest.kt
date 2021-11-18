@@ -11,7 +11,8 @@ class UiMovieItemGenreTest {
     @Test
     fun check_get_set() {
         uiMovieItemGenre = makeUiMovieItemGenre()
-        uiMovieItemGenre.id?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemGenre.name?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
+
+        uiMovieItemGenre.id.isNotEmpty().let { kotlin.test.assertTrue(it) }
+        uiMovieItemGenre.name.isNotEmpty().let { kotlin.test.assertTrue(it) }
     }
 }

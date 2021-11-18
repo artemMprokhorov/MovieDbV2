@@ -89,5 +89,4 @@ object DataItemsFactory {
         RandomFactory.generateString(),
         RandomFactory.generateString()
     )
-
 }

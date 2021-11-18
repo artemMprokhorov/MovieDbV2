@@ -14,6 +14,5 @@ class RemotePopularTest {
 
         remotePopular = makeRemotePopular()
         assertNotNull(remotePopular.copy())
-
     }
 }

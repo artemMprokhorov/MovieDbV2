@@ -9,12 +9,10 @@ class UiMovieItemLangMapperTest {
     @Test
     fun fromDomainToUi() {
         val uiMovieItemLangMapper = UiMovieItemLangMapper()
+        val domainMovieItemLang = makeDomainMovieItemLang()
+
         assertNotNull(with(uiMovieItemLangMapper) {
             domainMovieItemLang.toUi()
         })
-    }
-
-    companion object {
-        val domainMovieItemLang = makeDomainMovieItemLang()
     }
 }

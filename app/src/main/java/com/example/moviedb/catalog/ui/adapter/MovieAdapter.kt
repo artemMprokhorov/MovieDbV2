@@ -1,24 +1,21 @@
 package com.example.moviedb.catalog.ui.adapter
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviedb.BuildConfig
+import com.example.moviedb.R
 import com.example.moviedb.catalog.presentation.model.UiPopularItem
-import com.example.moviedb.catalog.ui.util.Constants.PRIMARY_OVERRIDED_HEIGHT
-import com.example.moviedb.catalog.ui.util.Constants.PRIMARY_OVERRIDED_WIDTH
-import com.example.moviedb.catalog.ui.util.ImageLoader
+import com.example.moviedb.commons.extentions.getFromResId
+import com.example.moviedb.commons.extentions.setImageFromUrl
 import com.example.moviedb.databinding.ViewMovieItemBinding
 import javax.inject.Inject
 
 
-class MovieAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+class MovieAdapter @Inject constructor() :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-
 
     private var liveDataOnChangeState: MutableLiveData<UiPopularItem?> = MutableLiveData()
     private var popularList: MutableList<UiPopularItem> = mutableListOf()
@@ -31,18 +28,14 @@ class MovieAdapter @Inject constructor(private val imageLoader: ImageLoader) :
         )
     }
 
-    override fun getItemCount(): Int {
-        return popularList.size
-    }
+    override fun getItemCount(): Int = popularList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val popularItem = popularList[position]
-        val imageLoader = imageLoader
 
         holder.bind(
-            itemListener = View.OnClickListener { liveDataOnChangeState.postValue(popularItem) },
-            item = popularItem,
-            imageLoader = imageLoader
+            itemListener = { liveDataOnChangeState.postValue(popularItem) },
+            item = popularItem
         )
     }
 
@@ -60,29 +53,35 @@ class MovieAdapter @Inject constructor(private val imageLoader: ImageLoader) :
 
         fun bind(
             itemListener: View.OnClickListener,
-            item: UiPopularItem,
-            imageLoader: ImageLoader
+            item: UiPopularItem
         ) {
             binding.apply {
                 movieItem = item
-                setImage(imageLoader, previewImg, item)
+                setImage(previewImg, item)
                 itemClickListener = itemListener
                 executePendingBindings()
             }
         }
 
         private fun setImage(
-            imageLoader: ImageLoader,
-            previewImg: ImageView,
+            previewView: ImageView,
             item: UiPopularItem
         ) {
-            item.backdropPath.let {
-                imageLoader.setImage(
-                    previewImg, BuildConfig.API_IMG, it,
-                    PRIMARY_OVERRIDED_WIDTH, PRIMARY_OVERRIDED_HEIGHT
+            R.drawable.ic_error.getFromResId(previewView.context)?.let {
+                previewView.setImageFromUrl(
+                    imgSource = item.backdropPath,
+                    useCache = true,
+                    targetWidth = PRIMARY_OVERRIDE_WIDTH,
+                    targetHeight = PRIMARY_OVERRIDE_HEIGHT,
+                    placeholder = it
                 )
             }
         }
+    }
+
+    companion object {
+        const val PRIMARY_OVERRIDE_WIDTH = 200
+        const val PRIMARY_OVERRIDE_HEIGHT = 125
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.moviedb.catalog.presentation.result
+package com.example.moviedb.catalog.presentation
 
 import com.example.moviedb.catalog.domain.model.DomainMovieItem
 import com.example.moviedb.catalog.domain.model.DomainPopular

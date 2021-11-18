@@ -15,10 +15,7 @@ class MovieRestApiImpl @Inject constructor(
         return restApi.getPopular(apiKey, pageNum)
     }
 
-    override fun getMovieItem(
-        movieId: String,
-        apiKey: String
-    ): Single<RemoteMovieItem> {
+    override fun getMovieItem(movieId: String, apiKey: String): Single<RemoteMovieItem> {
         return restApi.getMovieItem(movieId, apiKey)
     }
 }

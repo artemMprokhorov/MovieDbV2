@@ -1,14 +1,12 @@
-package com.example.moviedb.catalog.presentation.processor
+package com.example.moviedb.catalog.presentation
 
 import com.example.moviedb.catalog.domain.usecase.MovieItemUseCase
 import com.example.moviedb.catalog.domain.usecase.PopularUseCase
-import com.example.moviedb.catalog.presentation.action.MovieAction
-import com.example.moviedb.catalog.presentation.action.MovieAction.Movie
-import com.example.moviedb.catalog.presentation.action.MovieAction.MovieLoading
-import com.example.moviedb.catalog.presentation.result.MovieResult
-import com.example.moviedb.catalog.presentation.result.MovieResult.GetMovieLoadingResult
-import com.example.moviedb.catalog.presentation.result.MovieResult.GetMovieResult
-import com.example.moviedb.common.presentation.execution.ExecutionThread
+import com.example.moviedb.catalog.presentation.MovieAction.Movie
+import com.example.moviedb.catalog.presentation.MovieAction.MovieLoading
+import com.example.moviedb.catalog.presentation.MovieResult.GetMovieLoadingResult
+import com.example.moviedb.catalog.presentation.MovieResult.GetMovieResult
+import com.example.moviedb.commons.threads.ExecutionThread
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import javax.inject.Inject
@@ -26,15 +24,15 @@ class MovieProcessor @Inject constructor(
             observableAction.publish { action ->
                 Observable.merge(
                     action.ofType(Movie::class.java)
-                        .compose(inboxStateProcessor),
+                        .compose(getPopularProcessor),
                     action.ofType(MovieLoading::class.java)
-                        .compose(loadingInboxProcessor)
+                        .compose(getItemSelectedProcessor)
                 )
             }
         }
     }
 
-    private val inboxStateProcessor =
+    private val getPopularProcessor =
         ObservableTransformer<Movie, GetMovieResult> { actions ->
             actions.switchMap { it ->
                 popularUseCase
@@ -49,7 +47,7 @@ class MovieProcessor @Inject constructor(
             }
         }
 
-    private val loadingInboxProcessor =
+    private val getItemSelectedProcessor =
         ObservableTransformer<MovieLoading, GetMovieLoadingResult> { actions ->
             actions.switchMap { it ->
                 movieItemUseCase

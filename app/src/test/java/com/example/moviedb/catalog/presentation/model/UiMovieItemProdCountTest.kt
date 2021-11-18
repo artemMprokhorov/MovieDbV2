@@ -12,8 +12,8 @@ class UiMovieItemProdCountTest {
     fun check_get_set() {
 
         uiMovieItemProdCount = makeUiMovieItemProdCount()
-        uiMovieItemProdCount.iso?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-        uiMovieItemProdCount.name?.isNotEmpty()?.let { kotlin.test.assertTrue(it) }
-    }
 
+        uiMovieItemProdCount.iso.isNotEmpty().let { kotlin.test.assertTrue(it) }
+        uiMovieItemProdCount.name.isNotEmpty().let { kotlin.test.assertTrue(it) }
+    }
 }

@@ -65,7 +65,7 @@ object UiItemsFactory {
 
     fun makeUiPopularItem() = UiPopularItem(
         randomFactory.generateString(),
-        randomFactory.generateLong(),
+        randomFactory.generateString(),
         true,
         randomFactory.generateString(),
         randomFactory.generateString(),
