@@ -1,0 +1,87 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/cinER0ESG0eJ49kXlExM0MEWGxW.jpg",
+      "genre_ids": [
+        28,
+        12,
+        14
+      ],
+      "id": 566525,
+      "original_language": "en",
+      "original_title": "Shang-Chi and the Legend of the Ten Rings",
+      "overview": "Shang-Chi must confront the past he thought he left behind when he is drawn into the web of the mysterious Ten Rings organization.",
+      "popularity": 9589.905,
+      "poster_path": "/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg",
+      "release_date": "2021-09-01",
+      "title": "Shang-Chi and the Legend of the Ten Rings",
+      "video": false,
+      "vote_average": 7.9,
+      "vote_count": 3003
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1953j0QEbtN17WFFTnJHIm6bn6I.jpg",
+      "genre_ids": [
+        12,
+        28,
+        53
+      ],
+      "id": 370172,
+      "original_language": "en",
+      "original_title": "No Time to Die",
+      "overview": "Bond has left active service and is enjoying a tranquil life in Jamaica. His peace is short-lived when his old friend Felix Leiter from the CIA turns up asking for help. The mission to rescue a kidnapped scientist turns out to be far more treacherous than expected, leading Bond onto the trail of a mysterious villain armed with dangerous new technology.",
+      "popularity": 4689.436,
+      "poster_path": "/iUgygt3fscRoKWCV1d0C7FbM9TP.jpg",
+      "release_date": "2021-09-29",
+      "title": "No Time to Die",
+      "video": false,
+      "vote_average": 7.6,
+      "vote_count": 1839
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/70nxSw3mFBsGmtkvcs91PbjerwD.jpg",
+      "genre_ids": [
+        878,
+        28,
+        12
+      ],
+      "id": 580489,
+      "original_language": "en",
+      "original_title": "Venom: Let There Be Carnage",
+      "overview": "After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face a new enemy, Carnage, the alter ego of serial killer Cletus Kasady.",
+      "popularity": 4512.912,
+      "poster_path": "/rjkmN1dniUHVYAtwuV3Tji7FsDO.jpg",
+      "release_date": "2021-09-30",
+      "title": "Venom: Let There Be Carnage",
+      "video": false,
+      "vote_average": 6.8,
+      "vote_count": 1968
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/oE6bhqqVFyIECtBzqIuvh6JdaB5.jpg",
+      "genre_ids": [
+        878,
+        18,
+        12
+      ],
+      "id": 522402,
+      "original_language": "en",
+      "original_title": "Finch",
+      "overview": "On a post-apocalyptic Earth, a robot, built to protect the life of his dying creator's beloved dog, learns about life, love, friendship, and what it means to be human.",
+      "popularity": 3377.933,
+      "poster_path": "/jKuDyqx7jrjiR9cDzB5pxzhJAdv.jpg",
+      "release_date": "2021-11-04",
+      "title": "Finch",
+      "video": false,
+      "vote_average": 8.2,
+      "vote_count": 962
+    }
+  ],
+  "total_pages": 500,
+  "total_results": 10000
+}

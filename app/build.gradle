@@ -29,9 +29,7 @@ android {
 
         debug {
             debuggable true
-            buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/\""
-            buildConfigField "String", "API_IMG", "\"https://image.tmdb.org/t/p/w500/\""
-            buildConfigField "String", "API_KEY", "\"239a254f164d56fc7bfdca5c3e0e4bf8\""
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -43,6 +41,25 @@ android {
         exclude 'META-INF/atomicfu.kotlin_module'
         exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/LICENSE-notice.md'
+    }
+
+    flavorDimensions "tier"
+    productFlavors {
+        prod {
+            dimension "tier"
+            buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/\""
+            buildConfigField "String", "API_IMG", "\"https://image.tmdb.org/t/p/w500/\""
+            buildConfigField "String", "API_KEY", "\"239a254f164d56fc7bfdca5c3e0e4bf8\""
+        }
+
+        dummy {
+            applicationIdSuffix = ".dummy"
+            versionNameSuffix = "-dummy"
+            dimension "tier"
+            buildConfigField "String", "API_URL", "\"https://mock.api/\""
+            buildConfigField "String", "API_IMG", "\"https://mock.api/\""
+            buildConfigField "String", "API_KEY", "\"\""
+        }
     }
 
     androidExtensions {
