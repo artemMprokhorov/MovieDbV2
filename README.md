@@ -5,7 +5,7 @@ themoviedb.org
 https://api.themoviedb.org/
 
 # Implementation 
-MVI, Clean Architecture, LiveData, RxJava, Dagger, Custom Views, DataBinding
+MVI, Clean Architecture, LiveData, Coroutines, Dagger, Custom Views, DataBinding
 
 ## Author
 * Artem Prokhorov, system.uid@gmail.com
