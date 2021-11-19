@@ -23,11 +23,12 @@
 
         <ImageView
             android:id="@+id/preview_img"
-            android:layout_width="@dimen/dimen_150dp"
-            android:layout_height="@dimen/dimen_400dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/negative_dimen_70dp"
             android:contentDescription="@string/image_icon_descr"
             android:padding="@dimen/padding_2dp"
             android:src="@mipmap/ic_launcher">
@@ -40,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/preview_img"
             android:layout_marginStart="@dimen/dimen_10dp"
-            android:layout_marginTop="@dimen/negative_dimen_70dp"
             android:layout_marginEnd="@dimen/dimen_10dp"
             android:orientation="vertical">
 
@@ -54,7 +54,6 @@
                 android:singleLine="true"
                 android:text="@string/title"
                 android:visibility="visible" />
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -89,7 +88,6 @@
                 android:singleLine="true"
                 android:text="@string/popularity"
                 android:visibility="visible" />
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -127,7 +125,6 @@
 
             </TextView>
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,7 +139,6 @@
                 tools:text="@tools:sample/lorem/random" />
 
         </RelativeLayout>
-
 
         <RelativeLayout
             android:id="@+id/vote_average"
@@ -162,7 +158,6 @@
                 android:singleLine="true"
                 android:text="@string/vote_average"
                 android:visibility="visible" />
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -198,7 +193,6 @@
                 android:text="@string/adult"
                 android:visibility="visible" />
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,7 +207,6 @@
                 tools:text="@tools:sample/lorem/random" />
 
         </RelativeLayout>
-
 
         <RelativeLayout
             android:id="@+id/original_language"
@@ -233,7 +226,6 @@
                 android:singleLine="true"
                 android:text="@string/original_language"
                 android:visibility="visible" />
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -269,7 +261,6 @@
                 android:text="@string/original_title"
                 android:visibility="visible" />
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -303,7 +294,6 @@
                 android:singleLine="true"
                 android:text="@string/overview"
                 android:visibility="visible" />
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -339,7 +329,6 @@
                 android:text="@string/release_date"
                 android:visibility="visible" />
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -355,8 +344,6 @@
 
         </RelativeLayout>
 
-
     </RelativeLayout>
-
 
 </layout>

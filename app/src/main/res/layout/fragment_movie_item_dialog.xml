@@ -76,11 +76,13 @@
 
                     <ImageView
                         android:id="@+id/preview_img"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_500dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="@dimen/negative_dimen_14dp"
+                        android:layout_marginEnd="0dp"
                         android:contentDescription="@string/image_icon_descr"
                         android:padding="@dimen/padding_2dp"
                         android:src="@mipmap/ic_launcher">
