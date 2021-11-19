@@ -23,7 +23,10 @@ class FakeInterceptor constructor(private val context: Context) : Interceptor {
         var response: Response? = null
         val uri = chain.request().url.toUri()
         val mockDataPath = uri.host + uri.path + "/".lowercase(Locale.getDefault())
-        logMessage("--> Request url: [" + method.uppercase(Locale.getDefault()) + "]" + uri.toString(), DEBUG)
+        logMessage(
+            "--> Request url: [" + method.uppercase(Locale.getDefault()) + "]" + uri.toString(),
+            DEBUG
+        )
 
         kotlin.runCatching {
             logMessage("Read data from file: $mockDataPath + $defaultFileName", DEBUG)
@@ -53,12 +56,15 @@ class FakeInterceptor constructor(private val context: Context) : Interceptor {
         }.onFailure { error ->
             logMessage("${error.message} ->> $error", ERROR)
         }
-        logMessage("<-- END [" + method.uppercase(Locale.getDefault()) + "]" + uri.toString(), DEBUG)
+        logMessage(
+            "<-- END [" + method.uppercase(Locale.getDefault()) + "]" + uri.toString(),
+            DEBUG
+        )
         return response!!
     }
 
     private fun logMessage(message: String, level: Int) {
-        when(level){
+        when (level) {
             DEBUG -> d(TAG, message)
             else -> e(TAG, message)
         }

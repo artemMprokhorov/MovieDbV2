@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.32256410256410256" />
+        <entry key="app/src/main/res/layout/activity_movie.xml" value="0.15833333333333333" />
+        <entry key="app/src/main/res/layout/fragment_movie_catalog.xml" value="0.1866797900262467" />
+        <entry key="app/src/main/res/layout/fragment_movie_item_dialog.xml" value="0.12321351234300564" />
+        <entry key="app/src/main/res/layout/view_error.xml" value="0.29635416666666664" />
+        <entry key="app/src/main/res/layout/view_loading.xml" value="0.29635416666666664" />
         <entry key="app/src/main/res/layout/view_movie_item.xml" value="0.1796875" />
       </map>
     </option>

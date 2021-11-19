@@ -13,14 +13,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
+import com.example.moviedb.catalog.presentation.MovieIntent
 import com.example.moviedb.catalog.presentation.MovieState
-import com.example.moviedb.catalog.presentation.MovieUserIntent
 import com.example.moviedb.catalog.presentation.MovieViewModel
-import com.example.moviedb.catalog.presentation.model.UiMovieItem
-import com.example.moviedb.catalog.presentation.model.UiPopular
-import com.example.moviedb.catalog.presentation.model.UiPopularItem
+import com.example.moviedb.catalog.presentation.model.MovieItem
+import com.example.moviedb.catalog.presentation.model.Popular
+import com.example.moviedb.catalog.presentation.model.PopularItem
 import com.example.moviedb.catalog.ui.adapter.MovieAdapter
 import com.example.moviedb.catalog.ui.view.ErrorView
 import com.example.moviedb.catalog.ui.view.LoadingView
@@ -28,11 +29,15 @@ import com.example.moviedb.commons.factory.ViewModelFactory
 import com.example.moviedb.commons.mvi.MviUi
 import com.example.moviedb.databinding.FragmentMovieCatalogBinding
 import dagger.android.support.DaggerFragment
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState> {
+@ExperimentalCoroutinesApi
+@FlowPreview
+class MovieCatalogFragment : DaggerFragment(), MviUi<MovieIntent, MovieState> {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -49,11 +54,9 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
 
     private lateinit var error: ErrorView
 
-    private val liveDataOnChangeState: MutableLiveData<UiPopularItem?> = MutableLiveData()
+    private val liveDataOnChangeState: MutableLiveData<PopularItem?> = MutableLiveData()
 
-    private val initialIntent = PublishSubject.create<MovieUserIntent.InitialUserIntent>()
-
-    private val loadingIntent = PublishSubject.create<MovieUserIntent.MovieLoadingUserIntent>()
+    private val userIntents: MutableSharedFlow<MovieIntent> = MutableSharedFlow()
 
     val viewModel by viewModels<MovieViewModel> { viewModelFactory }
 
@@ -80,17 +83,34 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
 
     private fun setUpFragment() {
         setupAdapter()
-        subscribeUiStatesAndProcessUserIntents()
+        subscribeStatesProcessIntents()
+        setupObservers()
         onLiveDataSubscribe()
-        executeInit(INI_PAGE)
         setLastItemListener()
+    }
+
+    override fun intents(): Flow<MovieIntent> = merge(
+        getPopularIntent(),
+        userIntents.asSharedFlow()
+    )
+
+    private fun getPopularIntent(): Flow<MovieIntent> = flow {
+        emit(MovieIntent.GetPopularIntent(INI_PAGE))
+    }
+
+    private fun subscribeStatesProcessIntents() {
+        viewModel.run { viewModel.processIntents(intents()) }
+    }
+
+    private fun setupObservers() {
+        with(viewModel) { uiStates().onEach { renderStates(it) }.launchIn(lifecycleScope) }
     }
 
     private fun setupAdapter() {
         binding.rvMovies.adapter = movieAdapter
     }
 
-    private fun liveData(): LiveData<UiPopularItem?> = liveDataOnChangeState
+    private fun liveData(): LiveData<PopularItem?> = liveDataOnChangeState
 
     private fun onLiveDataSubscribe() {
         liveData().observe(this, {
@@ -100,48 +120,17 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
         })
     }
 
-    private fun executeInitialIntent(): Observable<MovieUserIntent.InitialUserIntent> =
-        initialIntent
-
-    private fun executeLoadingIntent(): Observable<MovieUserIntent.MovieLoadingUserIntent> =
-        loadingIntent
-
-    override fun userIntents(): Observable<MovieUserIntent> =
-        Observable.merge(
-            executeInitialIntent(),
-            executeLoadingIntent()
-        )
-
-    private fun executeInit(pageNum: String) {
-        initialIntent.onNext(MovieUserIntent.InitialUserIntent(pageNum))
-    }
-
-    private fun executeLoad(movieId: String) {
-        loadingIntent.onNext(MovieUserIntent.MovieLoadingUserIntent(movieId))
-    }
-
-    fun setIncomingData(uiPopular: List<UiPopularItem>?) {
-        when (uiPopular) {
+    private fun setIncomingData(popular: List<PopularItem>?) {
+        when (popular) {
             null -> setScreenForError(true)
-            else -> movieAdapter.setData(uiPopular, liveDataOnChangeState)
+            else -> movieAdapter.setData(popular, liveDataOnChangeState)
         }
     }
 
-    private fun subscribeUiStatesAndProcessUserIntents() {
-        observeUiStates()
-        viewModel.processUserIntents(userIntents())
-    }
-
-    private fun observeUiStates() {
-        viewModel.liveData().observe(this, { uiState ->
-            uiState?.let { renderUiStates(it) }
-        })
-    }
-
-    override fun renderUiStates(uiState: MovieState) {
+    override fun renderStates(uiState: MovieState) {
         when (uiState) {
             MovieState.DefaultState -> setDefaultState()
-            MovieState.LoadingState -> setScreenForLoading(uiState.isLoading)
+            MovieState.LoadingState -> setScreenForLoading(true)
             is MovieState.SuccessPopularState -> {
                 setScreenForSuccess(uiState.popular)
                 currentPageNum = uiState.popular.page
@@ -150,11 +139,11 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
                 setScreenForContent(false)
                 setScreenForError(true)
             }
-            is MovieState.SuccessItemSelectedState -> onItemLoaded(uiState.uiMovieItem)
+            is MovieState.SuccessItemSelectedState -> onItemLoaded(uiState.movieItem)
         }
     }
 
-    fun setDefaultState() {
+    private fun setDefaultState() {
         setScreenForLoading(true)
         setScreenForContent(false)
     }
@@ -166,20 +155,20 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
         }
     }
 
-    fun setScreenForContent(isLoaded: Boolean) {
+    private fun setScreenForContent(isLoaded: Boolean) {
         when (isLoaded) {
             true -> binding.contentLayout.isVisible = isLoaded
             else -> binding.contentLayout.isGone = !isLoaded
         }
     }
 
-    private fun setScreenForSuccess(popular: UiPopular) {
+    private fun setScreenForSuccess(popular: Popular) {
         setScreenForLoading(false)
         setScreenForContent(true)
         setIncomingData(popular.results)
     }
 
-    fun setScreenForError(show: Boolean) {
+    private fun setScreenForError(show: Boolean) {
         when (show) {
             true -> {
                 setScreenForLoading(false)
@@ -201,16 +190,18 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
         }
     }
 
-    fun setErrorDismissListener() {
+    private fun setErrorDismissListener() {
         binding.itemClickListener = OnClickListener { setScreenForError(false) }
     }
 
-    fun onItemClicked(uiPopularItem: UiPopularItem) {
-        executeLoad(uiPopularItem.id)
+    private fun onItemClicked(popularItem: PopularItem) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            userIntents.emit(MovieIntent.GetItemSelectedIntent(popularItem.id))
+        }
     }
 
-    fun onItemLoaded(uiMovieItem: UiMovieItem) {
-        movieItemDialogFragment.liveDataUiState.value = uiMovieItem
+    private fun onItemLoaded(movieItem: MovieItem) {
+        movieItemDialogFragment.liveDataUiState.value = movieItem
         movieItemDialogFragment.show(parentFragmentManager)
     }
 
@@ -220,7 +211,10 @@ class MovieCatalogFragment : DaggerFragment(), MviUi<MovieUserIntent, MovieState
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(DIRECTION)) {
                     context?.let { showToast(it) }
-                    executeInit((currentPageNum + PAGE_INIT_VALUE).toString())
+                    currentPageNum += PAGE_INIT_VALUE
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        userIntents.emit(MovieIntent.GetPopularIntent((currentPageNum).toString()))
+                    }
                 }
             }
         })

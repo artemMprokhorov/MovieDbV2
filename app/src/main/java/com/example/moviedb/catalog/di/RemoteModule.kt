@@ -4,10 +4,10 @@ import android.content.Context
 import com.example.moviedb.BuildConfig
 import com.example.moviedb.catalog.data.remote.MovieRestApi
 import com.example.moviedb.catalog.data.remote.MovieRestApiImpl
-import com.example.moviedb.catalog.data.source.MovieDataSource
+import com.example.moviedb.catalog.data.source.MovieRemote
 import com.example.moviedb.commons.net.FakeInterceptor
-import com.example.moviedb.commons.threads.PostExecutionThread
-import com.example.moviedb.commons.threads.UiThread
+import com.example.moviedb.commons.threads.AppCoroutineExecutionThread
+import com.example.moviedb.commons.threads.CoroutineExecutionThread
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,10 +22,10 @@ import javax.net.SocketFactory
 abstract class RemoteModule {
 
     @Binds
-    abstract fun bindPostExecutionThread(uiThread: UiThread): PostExecutionThread
+    abstract fun bindCoroutineExecutionThread(executionThread: AppCoroutineExecutionThread): CoroutineExecutionThread
 
     @Binds
-    abstract fun bindLifeInsuranceRemote(movieRestApiImpl: MovieRestApiImpl): MovieDataSource
+    abstract fun bindMovieRemote(movieRestApiImpl: MovieRestApiImpl): MovieRemote
 
     companion object {
 

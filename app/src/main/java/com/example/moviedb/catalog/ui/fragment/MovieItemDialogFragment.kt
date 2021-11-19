@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.moviedb.R
-import com.example.moviedb.catalog.presentation.model.UiMovieItem
+import com.example.moviedb.catalog.presentation.model.MovieItem
 import com.example.moviedb.commons.extentions.getFromResId
 import com.example.moviedb.commons.extentions.setImageFromUrl
 import com.example.moviedb.databinding.FragmentMovieItemDialogBinding
@@ -20,8 +20,8 @@ import com.example.moviedb.databinding.FragmentMovieItemDialogBinding
 class MovieItemDialogFragment() : AppCompatDialogFragment() {
 
     private var binding: FragmentMovieItemDialogBinding? = null
-    val liveDataUiState = MutableLiveData<UiMovieItem>()
-    private fun liveData(): LiveData<UiMovieItem> = liveDataUiState
+    val liveDataUiState = MutableLiveData<MovieItem>()
+    private fun liveData(): LiveData<MovieItem> = liveDataUiState
     val toolbarTitle: ObservableField<String> = ObservableField("")
 
     override fun onCreateView(
@@ -44,14 +44,14 @@ class MovieItemDialogFragment() : AppCompatDialogFragment() {
         return view
     }
 
-    private fun setContent(uiMovieItem: UiMovieItem) {
+    private fun setContent(item: MovieItem) {
         binding?.apply {
-            movieItem = uiMovieItem
-            toolbarTitle.set(uiMovieItem.title)
+            movieItem = item
+            toolbarTitle.set(item.title)
 
             R.drawable.ic_error.getFromResId(previewImg.context)?.let {
                 previewImg.setImageFromUrl(
-                    imgSource = uiMovieItem.backdropPath,
+                    imgSource = item.backdropPath,
                     useCache = true,
                     targetWidth = POSTER_OVERRIDE_WIDTH,
                     targetHeight = POSTER_OVERRIDE_HEIGHT,

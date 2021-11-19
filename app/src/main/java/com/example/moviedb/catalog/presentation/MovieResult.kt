@@ -1,20 +1,20 @@
 package com.example.moviedb.catalog.presentation
 
-import com.example.moviedb.catalog.domain.model.DomainMovieItem
-import com.example.moviedb.catalog.domain.model.DomainPopular
+import com.example.moviedb.catalog.presentation.model.MovieItem
+import com.example.moviedb.catalog.presentation.model.Popular
+import com.example.moviedb.commons.mvi.MviResult
 
+sealed class MovieResult : MviResult {
 
-sealed class MovieResult {
-
-    sealed class GetMovieResult : MovieResult() {
-        object InProgress : GetMovieResult()
-        data class Success(val state: DomainPopular) : GetMovieResult()
-        data class Error(val error: Throwable) : GetMovieResult()
+    sealed class GetPopularResult : MovieResult() {
+        object InProgress : GetPopularResult()
+        data class Success(val popular: Popular) : GetPopularResult()
+        data class Error(val error: Throwable) : GetPopularResult()
     }
 
-    sealed class GetMovieLoadingResult : MovieResult() {
-        object InProgress : GetMovieLoadingResult()
-        data class Success(val domainMovieItem: DomainMovieItem) : GetMovieLoadingResult()
-        data class Error(val error: Throwable) : GetMovieLoadingResult()
+    sealed class GetItemSelectedResult : MovieResult() {
+        object InProgress : GetItemSelectedResult()
+        data class Success(val movieItem: MovieItem) : GetItemSelectedResult()
+        data class Error(val error: Throwable) : GetItemSelectedResult()
     }
 }

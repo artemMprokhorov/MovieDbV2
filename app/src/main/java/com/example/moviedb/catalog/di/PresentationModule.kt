@@ -6,16 +6,18 @@ import com.example.moviedb.catalog.presentation.MovieViewModel
 import com.example.moviedb.catalog.ui.fragment.MovieItemDialogFragment
 import com.example.moviedb.commons.factory.ViewModelFactory
 import com.example.moviedb.commons.factory.ViewModelKey
-import com.example.moviedb.commons.threads.AppExecutionThread
-import com.example.moviedb.commons.threads.ExecutionThread
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 @Module
 abstract class PresentationModule {
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     @Binds
     @IntoMap
     @ViewModelKey(MovieViewModel::class)
@@ -23,9 +25,6 @@ abstract class PresentationModule {
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @Binds
-    abstract fun bindExecutionThread(executionThread: AppExecutionThread): ExecutionThread
 
     companion object {
 

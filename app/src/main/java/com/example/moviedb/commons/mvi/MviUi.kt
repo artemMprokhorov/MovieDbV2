@@ -1,11 +1,11 @@
 package com.example.moviedb.commons.mvi
 
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
-interface MviUi<TIntent, in TUiState> {
+interface MviUi<TIntent, in TState> {
 
-    fun userIntents(): Observable<TIntent>
+    fun intents(): Flow<TIntent>
 
-    fun renderUiStates(uiState: TUiState)
+    fun renderStates(uiState: TState)
 
 }

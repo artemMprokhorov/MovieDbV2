@@ -17,7 +17,7 @@
 
         <variable
             name="movieItem"
-            type="com.example.moviedb.catalog.presentation.model.UiMovieItem" />
+            type="com.example.moviedb.catalog.presentation.model.MovieItem" />
 
         <import type="android.view.View" />
 

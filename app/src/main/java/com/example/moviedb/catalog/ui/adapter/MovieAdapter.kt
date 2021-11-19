@@ -7,18 +7,17 @@ import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviedb.R
-import com.example.moviedb.catalog.presentation.model.UiPopularItem
+import com.example.moviedb.catalog.presentation.model.PopularItem
 import com.example.moviedb.commons.extentions.getFromResId
 import com.example.moviedb.commons.extentions.setImageFromUrl
 import com.example.moviedb.databinding.ViewMovieItemBinding
 import javax.inject.Inject
 
-
 class MovieAdapter @Inject constructor() :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
-    private var liveDataOnChangeState: MutableLiveData<UiPopularItem?> = MutableLiveData()
-    private var popularList: MutableList<UiPopularItem> = mutableListOf()
+    private var liveDataOnChangeState: MutableLiveData<PopularItem?> = MutableLiveData()
+    private var popularList: MutableList<PopularItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -40,8 +39,8 @@ class MovieAdapter @Inject constructor() :
     }
 
     fun setData(
-        messages: List<UiPopularItem>,
-        liveDataOnChangeState: MutableLiveData<UiPopularItem?>
+        messages: List<PopularItem>,
+        liveDataOnChangeState: MutableLiveData<PopularItem?>
     ) {
         this.popularList.addAll(messages)
         this.liveDataOnChangeState = liveDataOnChangeState
@@ -53,7 +52,7 @@ class MovieAdapter @Inject constructor() :
 
         fun bind(
             itemListener: View.OnClickListener,
-            item: UiPopularItem
+            item: PopularItem
         ) {
             binding.apply {
                 movieItem = item
@@ -65,7 +64,7 @@ class MovieAdapter @Inject constructor() :
 
         private fun setImage(
             previewView: ImageView,
-            item: UiPopularItem
+            item: PopularItem
         ) {
             R.drawable.ic_error.getFromResId(previewView.context)?.let {
                 previewView.setImageFromUrl(

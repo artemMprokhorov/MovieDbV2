@@ -10,7 +10,7 @@
 
         <variable
             name="movieItem"
-            type="com.example.moviedb.catalog.presentation.model.UiPopularItem" />
+            type="com.example.moviedb.catalog.presentation.model.PopularItem" />
 
     </data>
 

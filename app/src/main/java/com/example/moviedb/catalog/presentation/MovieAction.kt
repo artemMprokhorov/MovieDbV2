@@ -1,8 +1,10 @@
 package com.example.moviedb.catalog.presentation
 
-sealed class MovieAction {
+import com.example.moviedb.commons.mvi.MviAction
 
-    class Movie(val pageNum: String) : MovieAction()
+sealed class MovieAction : MviAction {
 
-    class MovieLoading(val movieId: String) : MovieAction()
+    class GetPopularAction(val pageNum: String) : MovieAction()
+
+    class GetItemSelectedAction(val movieId: String) : MovieAction()
 }

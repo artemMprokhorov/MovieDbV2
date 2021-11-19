@@ -1,64 +1,69 @@
 package com.example.moviedb.catalog.presentation
 
-import com.example.moviedb.catalog.domain.usecase.MovieItemUseCase
-import com.example.moviedb.catalog.domain.usecase.PopularUseCase
-import com.example.moviedb.catalog.presentation.MovieAction.Movie
-import com.example.moviedb.catalog.presentation.MovieAction.MovieLoading
-import com.example.moviedb.catalog.presentation.MovieResult.GetMovieLoadingResult
-import com.example.moviedb.catalog.presentation.MovieResult.GetMovieResult
-import com.example.moviedb.commons.threads.ExecutionThread
-import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
+import com.example.moviedb.catalog.data.repo.MovieDataRepository
+import com.example.moviedb.catalog.presentation.MovieAction.*
+import com.example.moviedb.catalog.presentation.MovieResult.GetItemSelectedResult
+import com.example.moviedb.catalog.presentation.MovieResult.GetPopularResult
+import com.example.moviedb.catalog.presentation.mapper.*
+import com.example.moviedb.commons.threads.CoroutineExecutionThread
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class MovieProcessor @Inject constructor(
-    private val popularUseCase: PopularUseCase,
-    private val movieItemUseCase: MovieItemUseCase,
-    private val executionThread: ExecutionThread
+    private val repository: MovieDataRepository,
+    private val popularMapper: PopularMapper,
+    private val popularItemMapper: PopularItemMapper,
+    private val movieItemMapper: MovieItemMapper,
+    private val movieItemLangMapper: MovieItemLangMapper,
+    private val movieItemProdCountMapper: MovieItemProdCountMapper,
+    private val movieItemProdCompMapper: MovieItemProdCompMapper,
+    private val movieItemGenresMapper: MovieItemGenresMapper,
+    private val movieItemBelongsMapper: MovieItemBelongsMapper,
+    private val executionThread: CoroutineExecutionThread
 ) {
-    var actionProcessor: ObservableTransformer<MovieAction, MovieResult>
-        private set
 
-    init {
-        actionProcessor = ObservableTransformer { observableAction ->
-            observableAction.publish { action ->
-                Observable.merge(
-                    action.ofType(Movie::class.java)
-                        .compose(getPopularProcessor),
-                    action.ofType(MovieLoading::class.java)
-                        .compose(getItemSelectedProcessor)
-                )
-            }
-        }
-    }
-
-    private val getPopularProcessor =
-        ObservableTransformer<Movie, GetMovieResult> { actions ->
-            actions.switchMap { it ->
-                popularUseCase
-                    .execute(it.pageNum)
-                    .toObservable()
-                    .map { GetMovieResult.Success(it) }
-                    .cast(GetMovieResult::class.java)
-                    .onErrorReturn(GetMovieResult::Error)
-                    .startWith(GetMovieResult.InProgress)
-                    .subscribeOn(executionThread.schedulerForSubscribing())
-                    .observeOn(executionThread.schedulerForObserving())
-            }
+    fun actionProcessor(actions: MovieAction): Flow<MovieResult> =
+        when (actions) {
+            is GetPopularAction -> getPopularProcessor(actions.pageNum)
+            is GetItemSelectedAction -> getItemSelectedProcessor(actions.movieId)
         }
 
-    private val getItemSelectedProcessor =
-        ObservableTransformer<MovieLoading, GetMovieLoadingResult> { actions ->
-            actions.switchMap { it ->
-                movieItemUseCase
-                    .execute(it.movieId)
-                    .toObservable()
-                    .map { GetMovieLoadingResult.Success(it) }
-                    .cast(GetMovieLoadingResult::class.java)
-                    .onErrorReturn(GetMovieLoadingResult::Error)
-                    .startWith(GetMovieLoadingResult.InProgress)
-                    .subscribeOn(executionThread.schedulerForSubscribing())
-                    .observeOn(executionThread.schedulerForObserving())
-            }
-        }
+    private fun getPopularProcessor(pageNum: String): Flow<GetPopularResult> =
+        repository.getPopular(pageNum)
+            .map { remotePopular ->
+                return@map when (remotePopular != null) {
+                    true -> GetPopularResult.Success(with(popularMapper) {
+                        remotePopular.toPresentation(popularItemMapper)
+                    })
+                    else -> GetPopularResult.Error(Throwable())
+                }
+            }.onStart {
+                emit(GetPopularResult.InProgress)
+            }.catch { cause: Throwable ->
+                emit(GetPopularResult.Error(cause))
+            }.flowOn(executionThread.ioThread())
+
+
+    private fun getItemSelectedProcessor(movieId: String): Flow<GetItemSelectedResult> =
+        repository.getMovieItem(movieId)
+            .map { movieItem ->
+                return@map when (movieItem != null) {
+                    true -> GetItemSelectedResult.Success(
+                        with(movieItemMapper) {
+                            movieItem.toPresentation(
+                                movieItemLangMapper,
+                                movieItemProdCountMapper,
+                                movieItemProdCompMapper,
+                                movieItemGenresMapper,
+                                movieItemBelongsMapper
+                            )
+                        }
+                    )
+                    else -> GetItemSelectedResult.Error(Throwable())
+                }
+            }.onStart {
+                emit(GetItemSelectedResult.InProgress)
+            }.catch { cause: Throwable ->
+                emit(GetItemSelectedResult.Error(cause))
+            }.flowOn(executionThread.ioThread())
 }
